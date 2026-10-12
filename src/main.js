@@ -176,58 +176,8 @@ async function init() {
   // Outer sidewalks for commercial shops (safely between road and buildings)
   box(-30.5, -.74, -0.5, 7, .1, 21, 'stone');
   box(30.5, -.74, -0.5, 7, .1, 21, 'stone');
-  // JODETX TOWER 1: Corporate Skyscraper Headquarters rising above and enclosing the living office
-  // 1. Tower Atrium Load-bearing corner pylons and perimeter structural framing
-  for (const px of [-17.5, 17.5]) {
-    box(px, 1.4, -9.4, 2.2, 4.4, 2.2, 'bldDarkBasalt');
-    box(px, 3.65, -9.4, 2.28, .14, 2.28, 'goldTrim');
-    box(px, 1.0, 7.8, .6, 3.6, .6, 'bldDarkBasalt');
-    box(px, 2.85, 7.8, .66, .08, .66, 'goldTrim');
-  }
-  // 2. Transom Podium Beam directly spanning top of office back wall
-  box(0, 3.75, -9.2, 35.0, .75, 2.4, 'bldWhiteStone');
-  box(0, 3.35, -7.98, 35.0, .10, .06, 'goldTrim');
-  const atriumHeader = textPlane('JODETX LIVING OFFICE · GLOBAL OPERATIONS ATRIUM', 13.5, .65, '#ffffff', 52, '#14202e');
-  atriumHeader.position.set(0, 3.75, -7.96); scene.add(atriumHeader);
-  // 3. Two scenic glass elevator shafts rising up behind reception into the skyscraper
-  for (const ex of [-3.8, 3.8]) {
-    cyl(ex - .45, 10.0, -8.7, .035, 16.0, 'metal'); cyl(ex + .45, 10.0, -8.7, .035, 16.0, 'metal');
-    box(ex, 10.0, -8.7, 1.4, 16.0, .04, 'retailGlass');
-    box(ex, 3.2, -8.7, 1.25, 1.8, 1.1, 'window');
-    box(ex, 3.2, -8.14, 1.2, 1.7, .04, 'retailGlass');
-    box(ex, 4.12, -8.7, 1.28, .06, 1.15, 'goldTrim');
-  }
-  // 4. Skyscraper Tower Massing (Floors 3 - 22)
-  box(0, 8.8, -9.8, 34.6, 9.4, 2.6, 'bldWhiteStone');
-  for (let fy = 4.4; fy <= 13.0; fy += 1.8) {
-    box(0, fy, -8.48, 34.6, .12, .08, 'goldTrim');
-    for (let fx = -15.4; fx <= 15.4; fx += 2.2) {
-      box(fx, fy + .9, -8.49, 1.9, 1.45, .05, 'bldGlassAzure');
-      box(fx, fy + .9, -8.46, .04, 1.48, .07, 'metal');
-    }
-  }
-  // Mid tower setback (Floors 9 - 16)
-  box(0, 16.5, -9.8, 30.0, 6.0, 2.4, 'bldRoyalNavy');
-  for (let fy = 13.8; fy <= 18.5; fy += 1.8) {
-    box(0, fy, -8.58, 30.0, .10, .08, 'goldTrim');
-    for (let fx = -13.2; fx <= 13.2; fx += 2.2) {
-      box(fx, fy + .85, -8.59, 1.9, 1.4, .05, 'bldGlassCyan');
-    }
-  }
-  // Upper Penthouse Crown & Global HQ Signage
-  box(0, 20.2, -9.8, 25.0, 2.4, 2.4, 'bldDarkBasalt');
-  box(0, 21.45, -9.8, 25.4, .25, 2.5, 'goldTrim');
-  const towerSign = textPlane('JODETX TOWER 1 · GLOBAL HEADQUARTERS', 12.8, 1.1, '#ffffff', 68, '#102236');
-  towerSign.position.set(0, 19.8, -8.56); scene.add(towerSign);
-  // Communications spire reaching skyward
-  cyl(0, 23.4, -9.8, .06, 4.2, 'goldTrim'); cyl(0, 26.0, -9.8, .02, 3.2, 'metal');
-  box(0, 27.6, -9.8, .12, .12, .12, 'headlight');
-  // Double-height grand entrance canopy & pillars at front
-  box(0, 3.85, 9.4, 10.6, .22, 2.6, 'navy'); box(0, 3.74, 9.4, 10.3, .06, 2.4, 'goldTrim');
-  const hqCanopySign = textPlane('JODETX HEADQUARTERS · EXECUTIVE PAVILION', 8.2, .55, '#ffffff', 56, '#102236');
-  hqCanopySign.position.set(0, 3.85, 10.72); scene.add(hqCanopySign);
-  for (const px of [-4.8, 4.8]) cyl(px, 1.8, 10.4, .12, 3.8, 'metal');
-  cyl(0, 1.25, 8.8, 1.45, 2.5, 'window'); cyl(0, 1.25, 8.8, 1.5, .08, 'metal'); box(0, 2.52, 8.8, 3.1, .14, 1.7, 'metal');
+  // City buildings and architectural skyline
+
   function cityBuilding(x, z, width, depth, height, style = 'tower', theme = {}) {
     const bodyMat = theme.body || 'bldWhiteStone';
     const baseMat = theme.base || 'bldDarkBasalt';

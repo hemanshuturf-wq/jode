@@ -184,81 +184,87 @@ async function init() {
   box(0, -.74, 14.3, 35, .1, 3, 'stone'); box(0, -.76, -14.1, 35, .1, 2.4, 'stone');
   for (const x of [-19, 19]) box(x, -.73, 0, 2.8, .12, 29, 'stone');
   for (let x = -16; x <= 16; x += 4) { box(x, -.71, -12.9, 2.7, .12, 1.4, 'grass'); hedge(x, -12.9, 1, .6, .55) }
-  // Outer sidewalks for commercial shops (safely between road and buildings)
-  box(-30.5, -.74, -0.5, 7, .1, 21, 'stone');
-  box(30.5, -.74, -0.5, 7, .1, 21, 'stone');
-
-  // Background Promenade, Parkway Lawn, Plaza, and EXACTLY 3 Modern Skyline Towers:
-  // 1. North Promenade Sidewalk (North of North road, z from -22 to -25.2)
-  box(0, -.74, -23.6, 96, .1, 3.2, 'stone');
-  // Row of 7 street trees along the North sidewalk
-  for (const tx of [-27, -18, -9, 0, 9, 18, 27]) streetTree(tx, -23.6);
-  // Modern pathway LED bollards along promenade
-  for (const tx of [-22.5, -13.5, -4.5, 4.5, 13.5, 22.5]) {
-    cyl(tx, -.55, -23.6, .07, .38, 'metal'); cyl(tx, -.35, -23.6, .072, .05, 'headlight');
+  // Street Trees in raised square granite planters
+  function streetTree(tx, tz) {
+    box(tx, -.55, tz, 1.6, .45, 1.6, 'stone'); box(tx, -.32, tz, 1.3, .12, 1.3, 'soil');
+    cyl(tx, .45, tz, .09, 1.5, 'darkWood');
+    for (const [dy, rad] of [[1.3, .85], [1.8, .72], [2.2, .55]]) {
+      cyl(tx, dy, tz, rad, .45, 'leaf');
+    }
   }
-  // 2. Central Greenway Park Belt (between sidewalk and towers, z from -25.2 to -41.8, full 16.6m width!)
-  box(0, -.72, -33.5, 96, .08, 16.6, 'grass');
+
+  // Outer sidewalks for commercial shops (continuous 48m stone sidewalk along west and east avenues)
+  box(-30.5, -.74, 0, 7, .1, 48, 'stone');
+  box(30.5, -.74, 0, 7, .1, 48, 'stone');
+
+  // North Promenade Sidewalk & Parkway Greenway (framing the North avenue and skyline towers):
+  // 1. North Promenade Sidewalk (North of North road, z = -23.5)
+  box(0, -.74, -23.5, 96, .1, 3.2, 'stone');
+  // Row of street trees along the North sidewalk
+  for (const tx of [-36, -27, -18, -9, 0, 9, 18, 27, 36]) streetTree(tx, -23.5);
+  // Modern pathway LED bollards along promenade
+  for (const tx of [-31.5, -22.5, -13.5, -4.5, 4.5, 13.5, 22.5, 31.5]) {
+    cyl(tx, -.55, -23.5, .07, .38, 'metal'); cyl(tx, -.35, -23.5, .072, .05, 'headlight');
+  }
+  // 2. Central Greenway Park Belt & Tower Plaza (z from -25.1 to -35)
+  box(0, -.72, -27.5, 96, .08, 4.8, 'grass');
+  box(0, -.73, -31.5, 96, .1, 5.2, 'stone');
   // Manicured boxwood hedges along park border
-  for (const tx of [-28, -21, -14, -7, 0, 7, 14, 21, 28]) hedge(tx, -25.8, 1.4, .65, .5);
-  // Cross-walkways connecting sidewalk through park to the 3 towers
-  for (const wx of [-20, 0, 20]) box(wx, -.715, -33.5, 2.4, .09, 16.0, 'stone');
+  for (const tx of [-28, -21, -14, -7, 0, 7, 14, 21, 28]) hedge(tx, -25.4, 1.4, .65, .5);
+  // Low wide plaza steps leading up to each of the 5 tower entrances
+  for (const tx of [-38, -19, 0, 19, 38]) {
+    box(tx, -.68, -28.2, 5.0, .08, 1.2, 'stone');
+    box(tx, -.62, -28.8, 4.4, .08, 1.0, 'stone');
+  }
   // Modern park benches in greenway
   for (const bx of [-10, 10]) {
-    box(bx, -.5, -33, 1.8, .4, .55, 'wood'); box(bx, -.3, -33.22, 1.8, .45, .08, 'wood');
-    cyl(bx - .8, -.55, -33, .04, .35, 'metal'); cyl(bx + .8, -.55, -33, .04, .35, 'metal');
+    box(bx, -.5, -27.5, 1.8, .4, .55, 'wood'); box(bx, -.3, -27.72, 1.8, .45, .08, 'wood');
+    cyl(bx - .8, -.55, -27.5, .04, .35, 'metal'); cyl(bx + .8, -.55, -27.5, .04, .35, 'metal');
   }
   // Perennial flower beds
-  for (const fx of [-15, 15]) {
-    box(fx, -.65, -34, 3.2, .2, 1.8, 'stone'); box(fx, -.52, -34, 2.9, .15, 1.5, 'grass');
-    box(fx - .8, -.42, -34, .4, .1, .4, 'flowerRed'); box(fx, -.42, -34, .4, .1, .4, 'flowerYellow'); box(fx + .8, -.42, -34, .4, .1, .4, 'flowerRed');
-  }
-  // 3. Paved Tower Promenade & Plaza at base of towers (z from -41.8 to -48)
-  box(0, -.73, -44.8, 76, .1, 6.0, 'stone');
-  // Low wide plaza steps leading up to each of the 3 tower entrances
-  for (const tx of [-20, 0, 20]) {
-    box(tx, -.68, -42.0, 5.0, .08, 1.2, 'stone');
-    box(tx, -.62, -42.6, 4.4, .08, 1.0, 'stone');
+  for (const fx of [-14, 14]) {
+    box(fx, -.65, -27.5, 2.8, .2, 1.6, 'stone'); box(fx, -.52, -27.5, 2.5, .15, 1.3, 'grass');
+    box(fx - .6, -.42, -27.5, .35, .1, .35, 'flowerRed'); box(fx, -.42, -27.5, .35, .1, .35, 'flowerYellow'); box(fx + .6, -.42, -27.5, .35, .1, .35, 'flowerRed');
   }
 
-  // THE 3 MAIN BACKGROUND SKYLINE TOWERS (Only 3 towers, seated 21+ meters behind road):
+  // 5 ICONIC SKYLINE TOWERS OF DIVERSE ARCHITECTURAL STYLES AND HEIGHTS:
   function skylineTower(x, z, width, depth, height, variant = 'lumina') {
     const lobbyH = 3.0;
     // Transparent double-height lobby with warm interior illumination
     box(x, lobbyH / 2 - .75, z, width * .7, lobbyH - .2, depth * .6, 'lobbyGlow');
     box(x, lobbyH / 2 - .75, z + depth / 2 + .06, width - 1.2, lobbyH - .2, .05, 'bldGlassAzure');
-    // Travertine corner and structural piers
+    // Corner piers
+    const pierMat = variant === 'basalt' ? 'bldDarkBasalt' : variant === 'emerald' ? 'bldEmerald' : 'bldWhiteStone';
     for (const sx of [-width / 2, width / 2]) for (const sz of [-depth / 2, depth / 2]) {
-      box(x + sx, lobbyH / 2 - .75, z + sz, .8, lobbyH, .8, 'bldWhiteStone');
+      box(x + sx, lobbyH / 2 - .75, z + sz, .8, lobbyH, .8, pierMat);
     }
     // Cantilevered entrance canopy
-    box(x, lobbyH - .75, z + depth / 2 + .65, width * .55, .14, 1.5, 'goldTrim');
+    const canopyTrim = variant === 'basalt' ? 'bldBronze' : 'goldTrim';
+    box(x, lobbyH - .75, z + depth / 2 + .65, width * .55, .14, 1.5, canopyTrim);
     box(x, lobbyH - .77, z + depth / 2 + .65, width * .45, .02, .08, 'headlight');
-    box(x, lobbyH - .75, z, width + .35, .18, depth + .35, 'goldTrim');
+    box(x, lobbyH - .75, z, width + .35, .18, depth + .35, canopyTrim);
 
     // Tower Body shaft:
-    // Core recessed inside by 0.35m on all sides, eliminating any facade overlap
     const shaftH = height - lobbyH;
     const shaftY = lobbyH - .75 + shaftH / 2;
     box(x, shaftY, z, width - .7, shaftH, depth - .7, 'concreteDark');
 
-    // Discrete floor spandrels and window ribbons (Zero vertical overlap)
-    const glassMat = variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure';
-    for (let y = lobbyH - .75; y < height - 1.4; y += 1.9) {
-      // 1. Solid spandrel band (y to y + .65)
-      box(x, y + .325, z, width, .65, depth, 'bldWhiteStone');
-      box(x, y + .65, z, width + .1, .08, depth + .1, 'goldTrim');
+    // Discrete floor spandrels and window ribbons
+    const stoneMat = variant === 'basalt' ? 'bldDarkBasalt' : variant === 'emerald' ? 'bldEmerald' : variant === 'solaria' ? 'bldSlateGrey' : 'bldWhiteStone';
+    const trimMat = variant === 'basalt' ? 'bldBronze' : 'goldTrim';
+    const glassMat = variant === 'solaria' ? 'bldGlassCyan' : variant === 'emerald' ? 'bldGlassIce' : 'bldGlassAzure';
 
-      // 2. Window ribbon (y + .65 to y + 1.85, height 1.2) - NO solid wall behind facade
+    for (let y = lobbyH - .75; y < height - 1.4; y += 1.9) {
+      box(x, y + .325, z, width, .65, depth, stoneMat);
+      box(x, y + .65, z, width + .1, .08, depth + .1, trimMat);
+
       const winY = y + 1.25;
       box(x, winY, z, width - .04, 1.12, depth - .04, glassMat);
 
-      // 3. Corner columns at window level
       for (const sx of [-width / 2, width / 2]) for (const sz of [-depth / 2, depth / 2]) {
-        box(x + sx, winY, z + sz, .6, 1.12, .6, 'bldWhiteStone');
+        box(x + sx, winY, z + sz, .6, 1.12, .6, stoneMat);
       }
 
-      // 4. Vertical mullions standing slightly proud of glass
       for (let mx = -width / 2 + 1.4; mx <= width / 2 - 1.4; mx += 1.8) {
         box(x + mx, winY, z + depth / 2 + .04, .05, 1.12, .06, 'metal');
         box(x + mx, winY, z - depth / 2 - .04, .05, 1.12, .06, 'metal');
@@ -268,13 +274,12 @@ async function init() {
         box(x - width / 2 - .04, winY, z + mz, .06, 1.12, .05, 'metal');
       }
 
-      // 5. Architectural sun louver
       box(x, winY + .52, z + depth / 2 + .14, width + .08, .04, .2, 'bldLouver');
     }
 
     const topY = height - .75;
     if (variant === 'lumina') {
-      // Center Tower: Iconic stepped crown, glazed penthouse, architectural mast & beacon
+      // 1. Lumina Spire: Iconic stepped crown, glazed penthouse, architectural mast & red beacon
       box(x, topY + .15, z, width + .2, .3, depth + .2, 'goldTrim');
       box(x, topY + 1.1, z, width * .7, 1.6, depth * .7, 'bldGlassAzure');
       box(x, topY + 2.0, z, width * .75, .2, depth * .75, 'goldTrim');
@@ -282,7 +287,7 @@ async function init() {
       cyl(x, topY + 5.5, z, .02, 1.8, 'metal');
       box(x, topY + 6.5, z, .14, .14, .14, 'beaconRed');
     } else if (variant === 'nordic') {
-      // Left Tower: Rooftop sky-terrace, glass balustrade, timber pergola, evergreen planters
+      // 2. Nordic Innovation: Rooftop sky-terrace, glass balustrade, timber pergola, evergreen planters
       box(x, topY + .12, z, width + .15, .24, depth + .15, 'goldTrim');
       box(x, topY + .5, z + depth / 2 + .05, width * .9, .6, .03, 'busGlass');
       box(x, topY + 1.4, z, width * .65, .08, depth * .65, 'darkWood');
@@ -291,20 +296,46 @@ async function init() {
         box(px, topY + .7, z, .75, .35, .75, 'grass');
         box(px, topY + .95, z, .55, .25, .55, 'leaf');
       }
-    } else {
-      // Right Tower: Beveled titanium cornice, recessed mechanical penthouse, roof louvers
+    } else if (variant === 'solaria') {
+      // 3. Solaria Horizon: Beveled titanium cornice, recessed mechanical penthouse, roof louvers
       box(x, topY + .18, z, width + .25, .36, depth + .25, 'goldTrim');
-      box(x, topY + 1.0, z, width * .65, 1.3, depth * .65, 'bldWhiteStone');
+      box(x, topY + 1.0, z, width * .65, 1.3, depth * .65, 'bldSlateGrey');
       for (const lz of [-1.5, 0, 1.5]) box(x, topY + 1.8, z + lz, width * .55, .06, .22, 'metal');
+    } else if (variant === 'basalt') {
+      // 4. Basalt & Bronze Spire: Stepped Art-Deco setbacks, bronze crown & antenna mast
+      box(x, topY + .2, z, width + .2, .4, depth + .2, 'bldBronze');
+      box(x, topY + .9, z, width * .75, 1.0, depth * .75, 'bldDarkBasalt');
+      box(x, topY + 1.5, z, width * .5, .8, depth * .5, 'bldBronze');
+      cyl(x, topY + 3.2, z, .08, 2.6, 'bldBronze');
+      cyl(x, topY + 4.8, z, .025, 1.6, 'metal');
+      box(x, topY + 5.7, z, .14, .14, .14, 'beaconRed');
+    } else if (variant === 'emerald') {
+      // 5. Emerald Capital: Rooftop heli-pad & dual sky-gardens
+      box(x, topY + .2, z, width + .2, .4, depth + .2, 'goldTrim');
+      box(x, topY + .8, z, width * .85, .8, depth * .85, 'concreteDark');
+      cyl(x, topY + 1.25, z, 2.8, .1, 'bldDarkBasalt');
+      cyl(x, topY + 1.32, z, 2.4, .04, 'flowerYellow');
+      cyl(x, topY + 1.35, z, 2.0, .04, 'bldDarkBasalt');
+      box(x, topY + 1.38, z, .4, .04, 1.6, 'white');
+      box(x, topY + 1.38, z, 1.6, .04, .4, 'white');
+      // Recessed 2-story sky-atrium terrace cutout on facade
+      box(x, 6.5, z + depth / 2 - .8, width * .45, 1.8, 1.6, 'concreteDark');
+      box(x, 5.5, z + depth / 2 - .1, width * .5, .4, .05, 'busGlass');
+      box(x, 5.7, z + depth / 2 - .8, .7, .3, .7, 'stone');
+      box(x, 6.2, z + depth / 2 - .8, .55, .7, .55, 'leaf');
     }
   }
 
   // 1. Center: The Lumina Spire (Clean white stone, sky azure glass, champagne gold crown & spire)
-  skylineTower(0, -46.5, 13.5, 7.5, 15.5, 'lumina');
-  // 2. Left: Nordic Innovation Highrise (Scandinavian white stone, sky azure ribbon glass, rooftop garden)
-  skylineTower(-20, -46.5, 11.5, 7.0, 12.5, 'nordic');
-  // 3. Right: Solaria Horizon Tower (Clean white stone, cyan curtain glass, beveled crown)
-  skylineTower(20, -46.5, 11.5, 7.0, 13.5, 'solaria');
+  skylineTower(0, -32.5, 13.5, 7.5, 17.5, 'lumina');
+  // 2. Mid-Left: Nordic Innovation Highrise (White stone, sky azure ribbon glass, rooftop garden)
+  skylineTower(-19, -32.0, 11.5, 7.0, 14.5, 'nordic');
+  // 3. Mid-Right: Solaria Horizon Tower (Slate grey stone, cyan curtain glass, beveled crown)
+  skylineTower(19, -32.0, 11.5, 7.0, 15.0, 'solaria');
+  // 4. Far-Left: Basalt & Bronze Art-Deco Spire (Dark basalt, bronze setbacks, gold crown & mast)
+  skylineTower(-38, -31.5, 11.0, 7.5, 17.5, 'basalt');
+  // 5. Far-Right: Emerald Capital Exchange (Emerald granite, ice glass, sky-gardens & heli-pad)
+  skylineTower(38, -31.5, 11.0, 7.5, 16.5, 'emerald');
 
   // West commercial building: Clean 3-story modern commercial pavilion (x in [-41, -31], z in [-8, 8])
   // Base plinth
@@ -479,13 +510,290 @@ async function init() {
   box(18.78, .35, 7, .04, 1.8, .9, 'window');
   const atmScreen = textPlane('Jodetx 24/7 ATM\nTOUCH TO START', 1.2, .8, '#00e5ff', 56, '#0f2238');
   atmScreen.position.set(18.75, .55, 7); atmScreen.rotation.y = -Math.PI / 2; scene.add(atmScreen);
-  // Street Trees in raised square granite planters
-  function streetTree(tx, tz) {
-    box(tx, -.55, tz, 1.6, .45, 1.6, 'stone'); box(tx, -.32, tz, 1.3, .12, 1.3, 'soil');
-    cyl(tx, .45, tz, .09, 1.5, 'darkWood');
-    for (const [dy, rad] of [[1.3, .85], [1.8, .72], [2.2, .55]]) {
-      cyl(tx, dy, tz, rad, .45, 'leaf');
+  // ==========================================
+  // ADDITIONAL ARCHITECTURAL BUILDINGS & PLAZAS
+  // ==========================================
+
+  // 1. West: The Foundry Creative Lofts (Terracotta Brick, Industrial Grid Windows, Rooftop Cedar Water Tower)
+  function foundryLofts(x, z, width = 10.2, depth = 11.0, height = 12.5) {
+    box(x, -.55, z, width + .2, .38, depth + .2, 'bldDarkBasalt');
+    box(x, height / 2 - .55, z, width, height, depth, 'bldTerracotta');
+    for (const cx of [-width / 2, width / 2]) for (const cz of [-depth / 2, depth / 2]) {
+      box(x + cx, height / 2 - .55, z + cz, .8, height, .8, 'bldDarkBasalt');
     }
+    for (const by of [2.8, 5.8, 8.8, 11.8]) {
+      box(x, by, z, width + .1, .25, depth + .1, 'bldDarkBasalt');
+      box(x, by + .15, z, width + .14, .06, depth + .14, 'bldBronze');
+    }
+    for (const wy of [1.4, 4.3, 7.3]) {
+      for (let fz = -depth / 2 + 1.8; fz <= depth / 2 - 1.8; fz += 2.4) {
+        box(x + width / 2 + .02, wy, z + fz, .06, 1.8, 1.6, 'bldGlassAzure');
+        box(x + width / 2 + .04, wy, z + fz, .08, 1.84, .06, 'bldDarkBasalt');
+        box(x + width / 2 + .04, wy, z + fz, .08, .06, 1.64, 'bldDarkBasalt');
+        box(x + width / 2 + .04, wy - .95, z + fz, .14, .1, 1.8, 'bldDarkBasalt');
+      }
+    }
+    for (const wy of [1.4, 4.3, 7.3]) {
+      for (let fx = -width / 2 + 1.8; fx <= width / 2 - 1.8; fx += 2.4) {
+        box(x + fx, wy, z + depth / 2 + .02, 1.6, 1.8, .06, 'bldGlassAzure');
+        box(x + fx, wy, z + depth / 2 + .04, .06, 1.84, .08, 'bldDarkBasalt');
+        box(x + fx, wy, z + depth / 2 + .04, 1.64, .06, .08, 'bldDarkBasalt');
+        box(x + fx, wy - .95, z + depth / 2 + .04, 1.8, .1, .14, 'bldDarkBasalt');
+      }
+    }
+    box(x, 11.3, z, width - 1.6, 2.2, depth - 1.6, 'bldGlassAzure');
+    box(x, 12.4, z, width - 1.4, .2, depth - 1.4, 'bldDarkBasalt');
+    for (const sz of [-depth / 2 + .2, depth / 2 - .2]) box(x, 10.5, z + sz, width - .4, .6, .04, 'metal');
+    for (const sx of [-width / 2 + .2, width / 2 - .2]) box(x + sx, 10.5, z, .04, .6, depth - .4, 'metal');
+
+    const topY = height - .55;
+    for (const [lx, lz] of [[-1.2, -.8], [.4, -.8], [-1.2, .8], [.4, .8]]) {
+      cyl(x - 1.8 + lx, topY + .8, z + lz, .04, 1.6, 'metal');
+    }
+    box(x - 2.2, topY + 1.5, z, 2.2, .12, 2.2, 'metal');
+    cyl(x - 2.2, topY + 2.5, z, 1.15, 1.8, 'darkWood');
+    for (const hy of [topY + 1.9, topY + 2.5, topY + 3.1]) cyl(x - 2.2, hy, z, 1.17, .04, 'metal');
+    cyl(x - 2.2, topY + 3.6, z, 1.3, .4, 'bldDarkBasalt');
+
+    box(x + 2.4, topY + .6, z - 1.5, 1.8, .9, 2.2, 'metal');
+    cyl(x + 2.4, topY + 1.1, z - 1.5, .6, .12, 'chromeSilver');
+    box(x + 2.0, topY + .4, z + 1.8, 1.4, .6, 1.4, 'metal');
+
+    for (const fy of [2.8, 5.8, 8.8]) {
+      box(x, fy, z - depth / 2 - .55, 3.2, .08, 1.1, 'metal');
+      box(x, fy + .45, z - depth / 2 - 1.05, 3.2, .8, .04, 'metal');
+      box(x - 1.55, fy + .45, z - depth / 2 - .55, .04, .8, 1.1, 'metal');
+      box(x + 1.55, fy + .45, z - depth / 2 - .55, .04, .8, 1.1, 'metal');
+    }
+    box(x + width / 2 + .02, 1.0, z, .06, 2.4, depth * .75, 'retailGlass');
+    const fSign = textPlane('THE FOUNDRY · CREATIVE LOFTS', 6.8, .75, '#fef2f2', 48, '#7c2d12');
+    fSign.position.set(x + width / 2 + .12, 2.55, z); fSign.rotation.y = -Math.PI / 2; scene.add(fSign);
+  }
+
+  // 2. West: Studio Design Center & Innovation Atelier (Architectural Concrete, Cantilevered Smoked Oak Volume)
+  function studioDesignCenter(x, z, width = 10.2, depth = 11.0, height = 9.5) {
+    box(x, -.55, z, width + .2, .38, depth + .2, 'stone');
+    box(x, height / 2 - .55, z, width, height, depth, 'bldSlateGrey');
+    box(x + width / 2 + .02, 1.0, z, .06, 2.4, depth - 1.2, 'retailGlass');
+    box(x, 1.0, z + depth / 2 + .02, width - 1.2, 2.4, .06, 'retailGlass');
+    box(x, 2.3, z, width + .1, .3, depth + .1, 'concreteDark');
+
+    box(x + .6, 4.2, z, width, 3.2, depth - 1.4, 'smokedOak');
+    box(x + width / 2 + .65, 4.2, z, .06, 1.4, depth - 2.8, 'bldGlassCyan');
+    box(x, 4.2, z + depth / 2 - .65, width - 1.6, 1.4, .06, 'bldGlassCyan');
+
+    box(x - .4, 7.3, z - .4, width - 1.2, 2.8, depth - 1.2, 'bldWhiteStone');
+    box(x + width / 2 - 1.0, 7.3, z + depth / 2 - 1.0, 2.0, 1.8, .06, 'bldGlassAzure');
+
+    const topY = height - .55;
+    box(x, topY + .05, z, width, .1, depth, 'smokedOak');
+    for (const sx of [-width / 2 + .05, width / 2 - .05]) box(x + sx, topY + .45, z, .04, .7, depth - .4, 'busGlass');
+    for (const sz of [-depth / 2 + .05, depth / 2 - .05]) box(x, topY + .45, z + sz, width - .4, .7, .04, 'busGlass');
+    for (const px of [x - 2, x + 2]) {
+      box(px, topY + 1.2, z, .1, 1.5, .1, 'darkWood');
+      box(px, topY + 2.0, z, .12, .1, depth * .6, 'darkWood');
+    }
+    for (const pz of [-2, 2]) {
+      box(x + 3.0, topY + .35, z + pz, .8, .5, .8, 'stone');
+      box(x + 3.0, topY + .65, z + pz, .65, .5, .65, 'leaf');
+    }
+
+    const dSign = textPlane('STUDIO DESIGN · ATELIER', 5.8, .7, '#ffffff', 48, '#334155');
+    dSign.position.set(x + width / 2 + .12, 2.45, z); dSign.rotation.y = -Math.PI / 2; scene.add(dSign);
+  }
+
+  // 3. East: Apex Corporate Headquarters (White Limestone, Champagne Gold Fins, Azure Glass)
+  function apexHeadquarters(x, z, width = 10.2, depth = 11.0, height = 14.0) {
+    box(x, -.55, z, width + .2, .38, depth + .2, 'stone');
+    box(x, height / 2 - .55, z, width - .6, height, depth - .6, 'concreteDark');
+
+    box(x, 1.2, z, width * .7, 2.6, depth * .7, 'lobbyGlow');
+    box(x - width / 2 - .02, 1.2, z, .06, 2.6, depth - 1.4, 'bldGlassAzure');
+    for (const cx of [-width / 2, width / 2]) for (const cz of [-depth / 2, depth / 2]) {
+      box(x + cx, 1.2, z + cz, .8, 2.8, .8, 'bldWhiteStone');
+    }
+
+    for (let fy = 2.8; fy < height - 1.5; fy += 2.4) {
+      box(x, fy + .35, z, width, .7, depth, 'bldWhiteStone');
+      box(x, fy + .7, z, width + .08, .08, depth + .08, 'goldTrim');
+      box(x, fy + 1.45, z, width - .04, 1.4, depth - .04, 'bldGlassAzure');
+      for (let fz = -depth / 2 + 1.2; fz <= depth / 2 - 1.2; fz += 1.5) {
+        box(x - width / 2 - .08, fy + 1.45, z + fz, .14, 1.42, .05, 'goldTrim');
+      }
+      for (let fx = -width / 2 + 1.2; fx <= width / 2 - 1.2; fx += 1.5) {
+        box(x + fx, fy + 1.45, z + depth / 2 + .08, .05, 1.42, .14, 'goldTrim');
+      }
+    }
+
+    const topY = height - .55;
+    box(x, topY + .2, z, width + .2, .4, depth + .2, 'bldWhiteStone');
+    box(x, topY + .45, z, width + .26, .1, depth + .26, 'goldTrim');
+    box(x, topY + 1.0, z, width * .65, 1.0, depth * .65, 'concreteDark');
+
+    cyl(x + 2, topY + 1.8, z - 1.5, .06, 2.6, 'metal');
+    cyl(x + 2, topY + 3.2, z - 1.5, .02, 1.4, 'metal');
+    box(x + 2, topY + 3.9, z - 1.5, .12, .12, .12, 'beaconRed');
+    cyl(x - 1.8, topY + 1.5, z - 1.5, .7, .12, 'chromeSilver');
+
+    for (let sx = -1.8; sx <= 1.8; sx += 1.6) {
+      const panel = box(x + sx, topY + 1.3, z + 2, 1.2, .06, 1.6, 'bldGlassAzure');
+      panel.rotation.x = .25;
+    }
+
+    const aSign = textPlane('APEX FINANCIAL · HQ', 6.2, .75, '#ffffff', 48, '#0f172a');
+    aSign.position.set(x - width / 2 - .12, 2.45, z); aSign.rotation.y = Math.PI / 2; scene.add(aSign);
+  }
+
+  // 4. East: The Grand Atrium Hotel & Residences (Parisian Sandstone, Juliet Balconies, Flower Planters)
+  function grandAtriumHotel(x, z, width = 10.2, depth = 11.0, height = 11.5) {
+    box(x, -.55, z, width + .2, .38, depth + .2, 'bldSandstone');
+    box(x, height / 2 - .55, z, width, height, depth, 'bldSandstone');
+    for (const by of [2.8, 5.6, 8.4]) {
+      box(x, by, z, width + .12, .22, depth + .12, 'bldSandstone');
+      box(x, by + .12, z, width + .16, .06, depth + .16, 'bldBronze');
+    }
+
+    for (const wy of [1.4, 4.2, 7.0]) {
+      for (let fz = -depth / 2 + 1.8; fz <= depth / 2 - 1.8; fz += 2.4) {
+        box(x - width / 2 - .02, wy, z + fz, .06, 1.9, 1.4, 'bldGlassIce');
+        box(x - width / 2 - .04, wy, z + fz, .08, 1.94, .05, 'bldBronze');
+        box(x - width / 2 - .2, wy - .45, z + fz, .25, .7, 1.6, 'bldBronze');
+        box(x - width / 2 - .28, wy - .7, z + fz, .18, .2, 1.5, 'stone');
+        box(x - width / 2 - .28, wy - .55, z + fz, .14, .1, 1.4, 'flowerRed');
+      }
+    }
+
+    for (const wy of [1.4, 4.2, 7.0]) {
+      for (let fx = -width / 2 + 1.8; fx <= width / 2 - 1.8; fx += 2.4) {
+        box(x + fx, wy, z + depth / 2 + .02, 1.4, 1.9, .06, 'bldGlassIce');
+        box(x + fx, wy - .45, z + depth / 2 + .2, 1.6, .7, .25, 'bldBronze');
+        box(x + fx, wy - .7, z + depth / 2 + .28, 1.5, .2, .18, 'stone');
+        box(x + fx, wy - .55, z + depth / 2 + .28, 1.4, .1, .14, 'flowerRed');
+      }
+    }
+
+    const topY = height - .55;
+    box(x, topY + .8, z, width - .8, 1.6, depth - .8, 'roofDark');
+    box(x, topY + 1.7, z, width - 1.2, .2, depth - 1.2, 'bldBronze');
+    for (let fz = -2.4; fz <= 2.4; fz += 2.4) {
+      box(x - width / 2 + .6, topY + .8, z + fz, 1.2, 1.1, 1.1, 'bldSandstone');
+      box(x - width / 2 + .1, topY + .8, z + fz, .06, .9, .7, 'bldGlassIce');
+    }
+
+    box(x - width / 2 - 1.0, 2.5, z, 1.8, .16, 4.2, 'bldBronze');
+    for (const cz of [-1.8, 1.8]) cyl(x - width / 2 - 1.7, 1.2, z + cz, .08, 2.4, 'goldTrim');
+    box(x - width / 2 - .02, 1.1, z, .06, 2.2, 3.2, 'bldGlassGold');
+
+    const hSign = textPlane('THE GRAND ATRIUM', 5.6, .7, '#fef3c7', 48, '#451a03');
+    hSign.position.set(x - width / 2 - .12, 2.75, z); hSign.rotation.y = Math.PI / 2; scene.add(hSign);
+  }
+
+  // 5. South-West Foreground: Bio-Innovation Pavilion (Cantilevered Timber Roof, Atrium Showroom & Green Sedum Deck)
+  function bioInnovationPavilion(x, z, width = 13.0, depth = 9.0, height = 5.8) {
+    box(x, -.58, z, width + .4, .32, depth + .4, 'bldSandstone');
+    box(x, .95, z, width * .7, 2.2, depth * .7, 'lobbyGlow');
+    box(x, .95, z - depth / 2 - .02, width - 1.0, 2.2, .06, 'bldGlassAzure');
+    box(x + width / 2 + .02, .95, z, .06, 2.2, depth - 1.0, 'bldGlassAzure');
+    for (let fx = -width / 2 + 1.6; fx <= width / 2 - 1.6; fx += 2.4) {
+      cyl(x + fx, .95, z - depth / 2 - .02, .06, 2.2, 'metal');
+    }
+
+    box(x, 2.2, z, width + .6, .3, depth + .6, 'darkWood');
+    box(x + .8, 3.7, z, width * .85, 2.4, depth * .85, 'bldWhiteStone');
+    box(x + .8, 3.7, z - depth / 2 + .3, width * .75, 1.4, .06, 'bldGlassCyan');
+    box(x + width / 2 + .75, 3.7, z, .06, 1.4, depth * .65, 'bldGlassCyan');
+
+    const topY = height - .55;
+    box(x, topY + .1, z, width + 1.4, .25, depth + 1.4, 'darkWood');
+    box(x, topY + .25, z, width + .8, .08, depth + .8, 'grass');
+    for (const sx of [-width / 2 - .2, width / 2 + .2]) box(x + sx, topY + .6, z, .04, .6, depth + .6, 'busGlass');
+    for (const sz of [-depth / 2 - .2, depth / 2 + .2]) box(x, topY + .6, z + sz, width + .6, .6, .04, 'busGlass');
+    for (const px of [x - 2, x + 2]) {
+      box(px, topY + 1.2, z, .1, 1.3, .1, 'metal');
+      box(px, topY + 1.9, z, .12, .08, 4.0, 'darkWood');
+    }
+
+    box(x + 4.5, -.5, z - 4.2, 1.6, .4, .5, 'wood');
+    box(x + 4.5, -.3, z - 4.4, 1.6, .4, .06, 'wood');
+    box(x - 4.5, -.4, z - 4.2, .8, .6, .8, 'stone');
+    cyl(x - 4.5, .1, z - 4.2, .25, .5, 'brass');
+
+    const pSign = textPlane('BIO-INNOVATION LABS', 5.6, .65, '#ffffff', 48, '#047857');
+    pSign.position.set(x, 2.35, z - depth / 2 - .12); scene.add(pSign);
+  }
+
+  // 6. South-East Foreground: Metro Civic Banking Hub (Monumental Travertine Colonnade, Double-Height Atrium)
+  function metroCivicBank(x, z, width = 13.0, depth = 9.0, height = 6.2) {
+    box(x, -.68, z - depth / 2 - 1.2, width + 1.2, .08, 1.4, 'stone');
+    box(x, -.60, z - depth / 2 - .6, width + .8, .08, 1.0, 'stone');
+    box(x, -.55, z, width + .4, .38, depth + .4, 'stone');
+
+    const colH = 4.2;
+    for (let fx = -width / 2 + 1.2; fx <= width / 2 - 1.2; fx += 2.1) {
+      box(x + fx, colH / 2 - .55, z - depth / 2 + .3, .55, colH, .55, 'bldWhiteStone');
+      box(x + fx, -.45, z - depth / 2 + .3, .7, .18, .7, 'bldWhiteStone');
+      box(x + fx, colH - .65, z - depth / 2 + .3, .7, .18, .7, 'goldTrim');
+    }
+
+    box(x, 1.6, z + .4, width - 1.2, 3.8, depth - 1.6, 'concreteDark');
+    box(x, 1.6, z - depth / 2 + 1.2, width - 2.0, 3.6, .06, 'bldGlassAzure');
+    box(x, 1.6, z + .4, width * .7, 3.4, depth * .5, 'lobbyGlow');
+
+    box(x, colH - .45, z - depth / 2 + .3, width + .6, .45, 1.2, 'bldWhiteStone');
+    box(x, colH - .2, z - depth / 2 + .3, width + .8, .12, 1.4, 'goldTrim');
+
+    box(x, 4.2, z + .4, width, 1.8, depth, 'bldWhiteStone');
+    for (let fx = -width / 2 + 1.5; fx <= width / 2 - 1.5; fx += 1.6) {
+      box(x + fx, 4.2, z - depth / 2 + .9, .06, 1.6, .2, 'bldBronze');
+    }
+
+    const topY = height - .55;
+    box(x, topY + .15, z + .4, width + .2, .3, depth + .2, 'bldWhiteStone');
+    box(x, topY + .32, z + .4, width + .3, .08, depth + .3, 'goldTrim');
+
+    for (let sx = -3.2; sx <= 3.2; sx += 2.0) {
+      const panel = box(x + sx, topY + .8, z + .4, 1.4, .06, 2.2, 'bldGlassAzure');
+      panel.rotation.x = .22;
+    }
+
+    const bSign = textPlane('METRO CIVIC · BANKING HUB', 6.8, .65, '#ffffff', 48, '#1e3a8a');
+    bSign.position.set(x, 3.8, z - depth / 2 - .18); scene.add(bSign);
+  }
+
+  // Place West and East Commercial & Lofts Buildings
+  foundryLofts(-36, -17, 10.2, 11.0, 12.5);
+  studioDesignCenter(-36, 17, 10.2, 11.0, 9.5);
+  apexHeadquarters(36, -17, 10.2, 11.0, 14.0);
+  grandAtriumHotel(36, 17, 10.2, 11.0, 11.5);
+
+  // Place South Foreground Pavilions
+  bioInnovationPavilion(-22, 32.5, 13.0, 9.0, 5.8);
+  metroCivicBank(22, 32.5, 13.0, 9.0, 6.2);
+
+  // South Civic Arrival Plaza & Landscaped Parkway (Central foreground framing office entrance)
+  box(0, -.74, 25.5, 96, .1, 4.0, 'stone');
+  box(0, -.60, 31.5, 4.6, .25, 4.6, 'stone');
+  box(0, -.48, 31.5, 4.0, .12, 4.0, 'bldGlassCyan');
+  box(0, -.42, 31.5, 1.0, .3, 1.0, 'stone');
+  cyl(0, -.2, 31.5, .35, .25, 'brass');
+  for (const bx of [-3.8, 3.8]) {
+    box(bx, -.5, 31.5, 1.8, .4, .55, 'wood');
+    box(bx, -.3, 31.25, 1.8, .45, .08, 'wood');
+    cyl(bx - .8, -.55, 31.5, .04, .35, 'metal');
+    cyl(bx + .8, -.55, 31.5, .04, .35, 'metal');
+  }
+  for (const fx of [-7.5, 7.5]) {
+    box(fx, -.65, 31.5, 3.2, .2, 2.0, 'stone');
+    box(fx, -.52, 31.5, 2.9, .15, 1.7, 'grass');
+    box(fx - .8, -.42, 31.5, .4, .1, .4, 'flowerRed');
+    box(fx, -.42, 31.5, .4, .1, .4, 'flowerYellow');
+    box(fx + .8, -.42, 31.5, .4, .1, .4, 'flowerRed');
+    hedge(fx, 31.5 - 1.5, 3.0, .45, .5);
+  }
+  for (const tx of [-14, -5, 5, 14]) streetTree(tx, 25.5);
+  for (const bx of [-18, -10, 0, 10, 18]) {
+    cyl(bx, -.55, 25.5, .07, .38, 'metal');
+    cyl(bx, -.35, 25.5, .072, .05, 'headlight');
   }
   streetTree(-19.2, -11.5); streetTree(19.2, 11.5); streetTree(-19.2, 12.5); streetTree(19.2, -12.5);
   // Pedestrian crossing signals with glowing walk lights
@@ -590,75 +898,75 @@ async function init() {
     for (let f = 0; f < frames; f++) { const time = f * original.duration / (frames - 1); times[f] = time; mixer.setTime(time); motion.scene.updateMatrixWorld(true); const desiredWorld = new Map(); for (const bone of targetBones) { const src = sourceBones.find(b => canonical(b.name) === canonical(bone.name)); const q = src ? src.getWorldQuaternion(new THREE.Quaternion()).multiply(sourceRest.get(src.name).clone().invert()).multiply(targetRest.get(bone.name)) : targetRest.get(bone.name).clone(); desiredWorld.set(bone.name, q); const parentQ = desiredWorld.get(bone.parent?.name) || bone.parent.getWorldQuaternion(new THREE.Quaternion()); parentQ.clone().invert().multiply(q).normalize().toArray(values.get(bone.name), f * 4) } const srcHip = sourceBones.find(b => canonical(b.name) === canonical(hipBone.name)).getWorldPosition(new THREE.Vector3()); if (f === 0) sourceStartY = srcHip.y; const p = hipWorld.clone(); p.y += (srcHip.y - sourceStartY) * .98; p.applyMatrix4(hipParentInverse).toArray(hips, f * 3) } action.stop(); const tracks = targetBones.map(b => new THREE.QuaternionKeyframeTrack(b.name + '.quaternion', times, values.get(b.name))); tracks.push(new THREE.VectorKeyframeTrack(hipBone.name + '.position', times, hips)); return new THREE.AnimationClip(name, original.duration, tracks);
   }
   const walkClip = transfer('walk'), idleClip = transfer('idle');
-  const hairGeoCache=new Map();
-  function buildHairGeometry(style){
-    const geos=[];
-    const add=(geo,pos,rot)=>{
-      const g=geo.clone();
-      if(rot){if(rot.x)g.rotateX(rot.x);if(rot.y)g.rotateY(rot.y);if(rot.z)g.rotateZ(rot.z);}
-      if(pos)g.translate(...pos);
-      geos.push(g.index?g.toNonIndexed():g);
+  const hairGeoCache = new Map();
+  function buildHairGeometry(style) {
+    const geos = [];
+    const add = (geo, pos, rot) => {
+      const g = geo.clone();
+      if (rot) { if (rot.x) g.rotateX(rot.x); if (rot.y) g.rotateY(rot.y); if (rot.z) g.rotateZ(rot.z); }
+      if (pos) g.translate(...pos);
+      geos.push(g.index ? g.toNonIndexed() : g);
     };
-    if(style===1){
+    if (style === 1) {
       // High ponytail with sleek tie
-      add(new THREE.SphereGeometry(.122,16,12,0,Math.PI*2,0,Math.PI*.7),[0,.12,-.01]);
-      add(new THREE.CylinderGeometry(.115,.07,.14,12),[0,.07,-.05],{x:.35});
-      add(new THREE.CylinderGeometry(.042,.048,.12,10),[0,.16,-.155],{x:-.55});
-      add(new THREE.CylinderGeometry(.045,.035,.15,10),[0,.05,-.19],{x:-.25});
-      add(new THREE.CylinderGeometry(.032,.015,.14,10),[0,-.08,-.21],{x:-.1});
-    }else if(style===2){
+      add(new THREE.SphereGeometry(.122, 16, 12, 0, Math.PI * 2, 0, Math.PI * .7), [0, .12, -.01]);
+      add(new THREE.CylinderGeometry(.115, .07, .14, 12), [0, .07, -.05], { x: .35 });
+      add(new THREE.CylinderGeometry(.042, .048, .12, 10), [0, .16, -.155], { x: -.55 });
+      add(new THREE.CylinderGeometry(.045, .035, .15, 10), [0, .05, -.19], { x: -.25 });
+      add(new THREE.CylinderGeometry(.032, .015, .14, 10), [0, -.08, -.21], { x: -.1 });
+    } else if (style === 2) {
       // Sleek shoulder bob
-      add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
-      for(const s of [-1,1])add(new THREE.CylinderGeometry(.065,.052,.18,10),[s*.112,.04,.01],{z:-s*.12});
-      add(new THREE.CylinderGeometry(.118,.095,.16,12),[0,.05,-.07],{x:.2});
-      add(new THREE.BoxGeometry(.16,.055,.03),[0,.165,.096]);
-    }else if(style===3){
+      add(new THREE.SphereGeometry(.124, 16, 12, 0, Math.PI * 2, 0, Math.PI * .72), [0, .125, -.01]);
+      for (const s of [-1, 1]) add(new THREE.CylinderGeometry(.065, .052, .18, 10), [s * .112, .04, .01], { z: -s * .12 });
+      add(new THREE.CylinderGeometry(.118, .095, .16, 12), [0, .05, -.07], { x: .2 });
+      add(new THREE.BoxGeometry(.16, .055, .03), [0, .165, .096]);
+    } else if (style === 3) {
       // Chic high bun / topknot with volume
-      add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
-      add(new THREE.SphereGeometry(.065,14,12),[0,.235,-.06]);
-      add(new THREE.CylinderGeometry(.07,.055,.05,12),[0,.185,-.055]);
-      add(new THREE.BoxGeometry(.15,.045,.03),[0,.16,.095]);
-    }else if(style===4){
+      add(new THREE.SphereGeometry(.124, 16, 12, 0, Math.PI * 2, 0, Math.PI * .72), [0, .125, -.01]);
+      add(new THREE.SphereGeometry(.065, 14, 12), [0, .235, -.06]);
+      add(new THREE.CylinderGeometry(.07, .055, .05, 12), [0, .185, -.055]);
+      add(new THREE.BoxGeometry(.15, .045, .03), [0, .16, .095]);
+    } else if (style === 4) {
       // Modern wavy lob / textured layered cut
-      add(new THREE.SphereGeometry(.125,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
-      for(const s of [-1,1]){
-        add(new THREE.CylinderGeometry(.07,.055,.22,10),[s*.12,.01,.015],{z:-s*.14,x:.1});
-        add(new THREE.SphereGeometry(.058,10,8),[s*.118,-.11,.02]);
+      add(new THREE.SphereGeometry(.125, 16, 12, 0, Math.PI * 2, 0, Math.PI * .72), [0, .125, -.01]);
+      for (const s of [-1, 1]) {
+        add(new THREE.CylinderGeometry(.07, .055, .22, 10), [s * .12, .01, .015], { z: -s * .14, x: .1 });
+        add(new THREE.SphereGeometry(.058, 10, 8), [s * .118, -.11, .02]);
       }
-      add(new THREE.CylinderGeometry(.12,.10,.16,12),[0,.05,-.075],{x:.22});
-      add(new THREE.BoxGeometry(.16,.052,.03),[0,.165,.095]);
-    }else{
+      add(new THREE.CylinderGeometry(.12, .10, .16, 12), [0, .05, -.075], { x: .22 });
+      add(new THREE.BoxGeometry(.16, .052, .03), [0, .165, .095]);
+    } else {
       // Style 0: Cascading long hair over shoulders
-      add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
-      for(const s of [-1,1]){
-        add(new THREE.CylinderGeometry(.065,.058,.18,10),[s*.115,.05,.015],{z:-s*.1});
-        add(new THREE.CylinderGeometry(.055,.045,.20,10),[s*.12,-.11,.02],{z:-s*.05});
+      add(new THREE.SphereGeometry(.124, 16, 12, 0, Math.PI * 2, 0, Math.PI * .72), [0, .125, -.01]);
+      for (const s of [-1, 1]) {
+        add(new THREE.CylinderGeometry(.065, .058, .18, 10), [s * .115, .05, .015], { z: -s * .1 });
+        add(new THREE.CylinderGeometry(.055, .045, .20, 10), [s * .12, -.11, .02], { z: -s * .05 });
       }
-      add(new THREE.CylinderGeometry(.118,.105,.16,12),[0,.05,-.075],{x:.2});
-      add(new THREE.CylinderGeometry(.102,.088,.18,12),[0,-.10,-.095],{x:.12});
-      add(new THREE.BoxGeometry(.16,.052,.03),[0,.165,.095]);
+      add(new THREE.CylinderGeometry(.118, .105, .16, 12), [0, .05, -.075], { x: .2 });
+      add(new THREE.CylinderGeometry(.102, .088, .18, 12), [0, -.10, -.095], { x: .12 });
+      add(new THREE.BoxGeometry(.16, .052, .03), [0, .165, .095]);
     }
-    const merged=mergeGeometries(geos,false);geos.forEach(g=>g.dispose());return merged;
+    const merged = mergeGeometries(geos, false); geos.forEach(g => g.dispose()); return merged;
   }
-  const ponytailTieGeo=new THREE.CylinderGeometry(.038,.038,.032,12);ponytailTieGeo.rotateX(-.65);ponytailTieGeo.translate(0,.19,-.11);
-  const bunClipGeo=new THREE.TorusGeometry(.055,.008,8,16);bunClipGeo.rotateX(Math.PI/2);bunClipGeo.translate(0,.215,-.06);
-  function getHairGeo(style){if(!hairGeoCache.has(style))hairGeoCache.set(style,buildHairGeometry(style));return hairGeoCache.get(style);}
-  function createFemaleHair(style=0,hairColor='#261b16'){
-    const g=new THREE.Group();
-    const mat=new THREE.MeshStandardMaterial({color:hairColor,roughness:.82,metalness:.05});
-    const mesh=new THREE.Mesh(getHairGeo(style),mat);mesh.castShadow=false;mesh.receiveShadow=true;g.add(mesh);
-    if(style===1){const tie=new THREE.Mesh(ponytailTieGeo,mats.goldTrim);tie.castShadow=false;tie.receiveShadow=true;g.add(tie);}
-    if(style===3){const clip=new THREE.Mesh(bunClipGeo,mats.goldTrim);clip.castShadow=false;clip.receiveShadow=true;g.add(clip);}
+  const ponytailTieGeo = new THREE.CylinderGeometry(.038, .038, .032, 12); ponytailTieGeo.rotateX(-.65); ponytailTieGeo.translate(0, .19, -.11);
+  const bunClipGeo = new THREE.TorusGeometry(.055, .008, 8, 16); bunClipGeo.rotateX(Math.PI / 2); bunClipGeo.translate(0, .215, -.06);
+  function getHairGeo(style) { if (!hairGeoCache.has(style)) hairGeoCache.set(style, buildHairGeometry(style)); return hairGeoCache.get(style); }
+  function createFemaleHair(style = 0, hairColor = '#261b16') {
+    const g = new THREE.Group();
+    const mat = new THREE.MeshStandardMaterial({ color: hairColor, roughness: .82, metalness: .05 });
+    const mesh = new THREE.Mesh(getHairGeo(style), mat); mesh.castShadow = false; mesh.receiveShadow = true; g.add(mesh);
+    if (style === 1) { const tie = new THREE.Mesh(ponytailTieGeo, mats.goldTrim); tie.castShadow = false; tie.receiveShadow = true; g.add(tie); }
+    if (style === 3) { const clip = new THREE.Mesh(bunClipGeo, mats.goldTrim); clip.castShadow = false; clip.receiveShadow = true; g.add(clip); }
     return g;
   }
-  const glassesGeo=(()=>{
-    const geos=[];const add=(g,pos)=>{g.translate(...pos);geos.push(g.index?g.toNonIndexed():g);};
-    for(const s of [-1,1]){add(new THREE.TorusGeometry(.025,.004,8,16),[s*.048,.122,.138]);}
-    add(new THREE.BoxGeometry(.026,.005,.006),[0,.122,.141]);
-    for(const s of [-1,1]){add(new THREE.BoxGeometry(.005,.005,.11),[s*.074,.124,.085]);}
-    const m=mergeGeometries(geos,false);geos.forEach(g=>g.dispose());return m;
+  const glassesGeo = (() => {
+    const geos = []; const add = (g, pos) => { g.translate(...pos); geos.push(g.index ? g.toNonIndexed() : g); };
+    for (const s of [-1, 1]) { add(new THREE.TorusGeometry(.025, .004, 8, 16), [s * .048, .122, .138]); }
+    add(new THREE.BoxGeometry(.026, .005, .006), [0, .122, .141]);
+    for (const s of [-1, 1]) { add(new THREE.BoxGeometry(.005, .005, .11), [s * .074, .124, .085]); }
+    const m = mergeGeometries(geos, false); geos.forEach(g => g.dispose()); return m;
   })();
-  function createGlasses(color='#202228'){return new THREE.Mesh(glassesGeo,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.65}));}
+  function createGlasses(color = '#202228') { return new THREE.Mesh(glassesGeo, new THREE.MeshStandardMaterial({ color, roughness: .35, metalness: .65 })); }
   const peopleStyles = [
     // 0: Visitor (male tech founder in white button-down, indigo jeans, white sneakers)
     { top: '#f4f5f7', bottom: '#222f42', inner: '#f4f5f7', belt: '#382417', shoes: '#edeef0', hair: '#38251c', skin: '#dca080', female: false, beard: false },

@@ -152,36 +152,65 @@ async function init() {
   for (const x of [-13, 13]) { box(x, .58, 7.75, 7.8, 1.16, .018, glass); for (const dx of [-3.9, 0, 3.9]) box(x + dx, .62, 7.75, .035, 1.23, .035, 'metal'); }
   mat('asphalt', '#889396'); mat('grass', '#bac5a8'); mat('city', '#dedfd6'); mat('window', '#709398', .4);
   mat('concreteDark', '#38424a', .75); mat('buildingStone', '#d5d2c6', .75); mat('buildingGlass', '#42687c', .2, .38); mat('buildingBronze', '#7c6146', .4, .6); mat('roofDark', '#22282e', .8);
+  mat('bldTerracotta', '#bf563b', .78); mat('bldWhiteStone', '#ece8dc', .72); mat('bldSandstone', '#d4be9c', .8);
+  mat('bldRoyalNavy', '#1c2f45', .55); mat('bldEmerald', '#23695c', .45); mat('bldBronze', '#7d5b3d', .45, .55);
+  mat('bldSlateGrey', '#46505c', .7); mat('bldCoralOchre', '#c9774f', .75); mat('bldDarkBasalt', '#262a30', .82);
+  mat('bldGlassAzure', '#345e78', .16, .45); mat('bldGlassCyan', '#2b6f6f', .16, .45); mat('bldGlassGold', '#766042', .2, .5); mat('bldGlassSmoke', '#2f373d', .2, .4);
   mats.headlight = new THREE.MeshBasicMaterial({ color: '#fffadc' }); mats.taillight = new THREE.MeshBasicMaterial({ color: '#ff2525' });
   box(0, -1, -3, 90, .4, 80, 'city'); box(0, -.77, -19, 90, .04, 6, 'asphalt'); box(23, -.77, 3, 6, .04, 80, 'asphalt'); box(-23, -.77, 3, 6, .04, 80, 'asphalt'); box(0, -.77, 19.5, 90, .04, 6, 'asphalt');
   for (let x = -38; x < 40; x += 3.2) { box(x, -.742, -19, 1.6, .012, .09, 'roadStripe'); box(x, -.742, 19.5, 1.6, .012, .09, 'roadStripe') } for (let z = -26; z < 32; z += 3.2)for (const x of [-23, 23]) box(x, -.742, z, .09, .012, 1.6, 'roadStripe');
   for (let i = 0; i < 9; i++) { box(18.4 + i * .36, -.741, 14.8, .19, .013, 3, 'roadStripe'); box(-18.4 - i * .36, -.741, 14.8, .19, .013, 3, 'roadStripe') }
   box(0, -.74, 14.3, 35, .1, 3, 'stone'); box(0, -.76, -14.1, 35, .1, 2.4, 'stone'); for (const x of [-19, 19]) box(x, -.73, 0, 2.8, .12, 29, 'stone');
   for (let x = -16; x <= 16; x += 4) { box(x, -.71, -12.9, 2.7, .12, 1.4, 'grass'); hedge(x, -12.9, 1, .6, .55) }
-  function cityBuilding(x, z, width, depth, height, style = 'tower') {
+  function cityBuilding(x, z, width, depth, height, style = 'tower', theme = {}) {
+    const bodyMat = theme.body || (style === 'corporate' ? 'bldRoyalNavy' : style === 'highrise' ? 'bldWhiteStone' : 'city');
+    const baseMat = theme.base || (style === 'highrise' ? 'bldDarkBasalt' : 'concreteDark');
+    const glassMat = theme.glass || 'bldGlassAzure';
+    const trimMat = theme.trim || (style === 'deco' ? 'goldTrim' : 'edge');
     const baseH = Math.min(2.8, height * .25);
-    box(x, baseH / 2 - .75, z, width + .3, baseH, depth + .3, style === 'highrise' ? 'concreteDark' : 'buildingStone');
+    box(x, baseH / 2 - .75, z, width + .35, baseH, depth + .35, baseMat);
     const canopyZ = z > 0 ? z - depth / 2 - .5 : z + depth / 2 + .5;
-    box(x, baseH - .75, canopyZ, Math.min(5, width * .55), .14, 1.4, 'navy');
+    box(x, baseH - .75, canopyZ, Math.min(5.2, width * .55), .15, 1.4, bodyMat);
     box(x, (baseH - .75) / 2, canopyZ, .12, baseH - .75, .12, 'metal');
     const bodyH = height - baseH, bodyY = baseH - .75 + bodyH / 2;
-    box(x, bodyY, z, width, bodyH, depth, style === 'corporate' ? 'navy' : style === 'highrise' ? 'buildingStone' : 'city');
-    for (let y = baseH - .75 + 1.8; y < height - .8; y += 1.8) box(x, y, z, width + .12, .14, depth + .12, 'edge');
+    box(x, bodyY, z, width, bodyH, depth, bodyMat);
+    for (let y = baseH - .75 + 1.8; y < height - .8; y += 1.8) box(x, y, z, width + .14, .14, depth + .14, trimMat);
     for (let y = baseH - .75 + .8; y < height - 1.2; y += 1.8) {
-      for (let a = -width / 2 + .8; a <= width / 2 - .8; a += 1.4) { box(x + a, y, z + depth / 2 + .018, .85, .95, .025, 'buildingGlass'); box(x + a, y, z - depth / 2 - .018, .85, .95, .025, 'buildingGlass'); }
-      for (let b = -depth / 2 + .8; b <= depth / 2 - .8; b += 1.4) { box(x + width / 2 + .018, y, z + b, .025, .95, .85, 'buildingGlass'); box(x - width / 2 - .018, y, z + b, .025, .95, .85, 'buildingGlass'); }
+      for (let a = -width / 2 + .8; a <= width / 2 - .8; a += 1.4) { box(x + a, y, z + depth / 2 + .018, .86, .98, .025, glassMat); box(x + a, y, z - depth / 2 - .018, .86, .98, .025, glassMat); }
+      for (let b = -depth / 2 + .8; b <= depth / 2 - .8; b += 1.4) { box(x + width / 2 + .018, y, z + b, .025, .98, .86, glassMat); box(x - width / 2 - .018, y, z + b, .025, .98, .86, glassMat); }
     }
-    const topY = height - .75; box(x, topY + .12, z, width + .18, .26, depth + .18, 'wall');
-    box(x - width * .1, topY + 1.0, z - depth * .1, width * .42, 1.8, depth * .42, 'roofDark');
+    const topY = height - .75; box(x, topY + .12, z, width + .2, .28, depth + .2, baseMat);
+    box(x - width * .08, topY + 1.0, z - depth * .08, width * .44, 1.8, depth * .44, 'roofDark');
     cyl(x + width * .2, topY + .7, z + depth * .15, .55, .9, 'metal'); cyl(x + width * .2, topY + .7, z - depth * .15, .55, .9, 'metal');
-    if (style === 'highrise' || style === 'tower') { cyl(x - width * .1, topY + 4.2, z - depth * .1, .04, 4.6, 'goldTrim'); cyl(x - width * .1, topY + 6.5, z - depth * .1, .015, 2.2, 'metal'); }
+    if (style === 'highrise' || style === 'tower' || style === 'deco') {
+      cyl(x - width * .08, topY + 4.2, z - depth * .08, .04, 4.6, 'goldTrim');
+      cyl(x - width * .08, topY + 6.5, z - depth * .08, .015, 2.2, 'metal');
+    }
   }
-  cityBuilding(-16, -30, 12, 10, 13, 'corporate'); cityBuilding(0, -32, 16, 11, 18, 'highrise'); cityBuilding(16, -30, 12, 10, 14, 'tower');
-  cityBuilding(-35, -9, 11, 13, 13, 'modern'); cityBuilding(-35, 9, 11, 13, 16, 'highrise'); cityBuilding(-35, -24, 11, 11, 11, 'corporate'); cityBuilding(-35, 23, 11, 11, 9, 'retail');
-  cityBuilding(35, -9, 11, 13, 14, 'highrise'); cityBuilding(35, 9, 11, 13, 12, 'modern'); cityBuilding(35, -24, 11, 11, 11, 'corporate'); cityBuilding(35, 23, 11, 11, 9, 'retail');
-  cityBuilding(-15, 31, 13, 10, 9, 'retail'); cityBuilding(15, 31, 13, 10, 10, 'corporate'); cityBuilding(0, 33, 12, 9, 8, 'modern');
-  for (const x of [-19.2, 19.2]) for (const z of [-13, -2, 9, 17]) { cyl(x, .8, z, .035, 3.2, 'metal'); box(x + Math.sign(x) * .25, 2.42, z, .5, .04, .04, 'metal'); box(x + Math.sign(x) * .4, 2.38, z, .26, .03, .12, 'headlight'); }
-  for (const x of [-14, -6, 6, 14]) { cyl(x, .75, 15.6, .035, 3.1, 'metal'); box(x, 2.32, 15.6 + .25, .04, .04, .5, 'metal'); box(x, 2.28, 15.6 + .4, .12, .03, .26, 'headlight'); }
+  // North background buildings (behind the office)
+  cityBuilding(-16, -30, 12, 10, 14, 'tower', { body: 'bldTerracotta', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'white' });
+  cityBuilding(0, -32, 16, 11, 20, 'deco', { body: 'bldWhiteStone', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'goldTrim' });
+  cityBuilding(16, -30, 12, 10, 15, 'highrise', { body: 'bldEmerald', base: 'bldWhiteStone', glass: 'bldGlassCyan', trim: 'edge' });
+  // Deep North backdrop towers
+  cityBuilding(-32, -36, 12, 10, 16, 'modern', { body: 'bldBronze', base: 'bldDarkBasalt', glass: 'bldGlassSmoke', trim: 'metal' });
+  cityBuilding(32, -36, 12, 10, 16, 'deco', { body: 'bldWhiteStone', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'goldTrim' });
+  // West flank buildings (strictly at z <= -12 to leave office and front avenue completely clear)
+  cityBuilding(-37, -25, 11, 11, 13, 'tower', { body: 'bldSandstone', base: 'bldDarkBasalt', glass: 'bldGlassGold', trim: 'white' });
+  cityBuilding(-37, -12, 11, 11, 15, 'highrise', { body: 'bldRoyalNavy', base: 'concreteDark', glass: 'bldGlassAzure', trim: 'goldTrim' });
+  // East flank buildings (strictly at z <= -13 to leave office and front avenue completely clear)
+  cityBuilding(37, -25, 11, 11, 13, 'modern', { body: 'bldSlateGrey', base: 'concreteDark', glass: 'bldGlassAzure', trim: 'white' });
+  cityBuilding(37, -13, 11, 11, 13, 'highrise', { body: 'bldCoralOchre', base: 'bldWhiteStone', glass: 'bldGlassCyan', trim: 'edge' });
+  // ZERO buildings in front (z > -8) - full 100% unobstructed panoramic view of the office!
+  // Modern pathway LED bollards and stone planters (replaces tall crossarm street lamps)
+  for (const x of [-19.2, 19.2]) for (const z of [-12, -2, 8]) {
+    cyl(x, -.55, z, .07, .38, 'metal'); cyl(x, -.35, z, .072, .05, 'headlight');
+  }
+  for (const x of [-14, -6, 6, 14]) {
+    box(x, -.55, 15.8, 2.2, .38, .8, 'stone'); box(x, -.34, 15.8, 2.0, .14, .64, 'grass'); hedge(x, 15.8, 1.8, .42, .55);
+  }
+  for (const x of [-10, -2, 2, 10]) {
+    cyl(x, -.55, 15.8, .07, .38, 'metal'); cyl(x, -.35, 15.8, .072, .05, 'headlight');
+  }
   function makeRoundedCircuit(corners, radius = 3.5, segmentsPerCorner = 6) {
     const points = [], n = corners.length;
     for (let i = 0; i < n; i++) {
@@ -268,7 +297,7 @@ async function init() {
     const original = motion.animations.find(a => a.name === name), mixer = new THREE.AnimationMixer(motion.scene), action = mixer.clipAction(original).play(), frames = Math.ceil(original.duration * 30) + 1, times = new Float32Array(frames), values = new Map(targetBones.map(b => [b.name, new Float32Array(frames * 4)])), hips = new Float32Array(frames * 3); let sourceStartY;
     for (let f = 0; f < frames; f++) { const time = f * original.duration / (frames - 1); times[f] = time; mixer.setTime(time); motion.scene.updateMatrixWorld(true); const desiredWorld = new Map(); for (const bone of targetBones) { const src = sourceBones.find(b => canonical(b.name) === canonical(bone.name)); const q = src ? src.getWorldQuaternion(new THREE.Quaternion()).multiply(sourceRest.get(src.name).clone().invert()).multiply(targetRest.get(bone.name)) : targetRest.get(bone.name).clone(); desiredWorld.set(bone.name, q); const parentQ = desiredWorld.get(bone.parent?.name) || bone.parent.getWorldQuaternion(new THREE.Quaternion()); parentQ.clone().invert().multiply(q).normalize().toArray(values.get(bone.name), f * 4) } const srcHip = sourceBones.find(b => canonical(b.name) === canonical(hipBone.name)).getWorldPosition(new THREE.Vector3()); if (f === 0) sourceStartY = srcHip.y; const p = hipWorld.clone(); p.y += (srcHip.y - sourceStartY) * .98; p.applyMatrix4(hipParentInverse).toArray(hips, f * 3) } action.stop(); const tracks = targetBones.map(b => new THREE.QuaternionKeyframeTrack(b.name + '.quaternion', times, values.get(b.name))); tracks.push(new THREE.VectorKeyframeTrack(hipBone.name + '.position', times, hips)); return new THREE.AnimationClip(name, original.duration, tracks);
   }
-  const walkClip = transfer('walk'), idleClip = human.animations[0];
+  const walkClip = transfer('walk'), idleClip = transfer('idle');
   const hairGeoCache=new Map();
   function buildHairGeometry(style){
     const geos=[];
@@ -279,17 +308,35 @@ async function init() {
       geos.push(g.index?g.toNonIndexed():g);
     };
     if(style===1){
+      // High ponytail with sleek tie
       add(new THREE.SphereGeometry(.122,16,12,0,Math.PI*2,0,Math.PI*.7),[0,.12,-.01]);
       add(new THREE.CylinderGeometry(.115,.07,.14,12),[0,.07,-.05],{x:.35});
       add(new THREE.CylinderGeometry(.042,.048,.12,10),[0,.16,-.155],{x:-.55});
       add(new THREE.CylinderGeometry(.045,.035,.15,10),[0,.05,-.19],{x:-.25});
       add(new THREE.CylinderGeometry(.032,.015,.14,10),[0,-.08,-.21],{x:-.1});
     }else if(style===2){
+      // Sleek shoulder bob
       add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
       for(const s of [-1,1])add(new THREE.CylinderGeometry(.065,.052,.18,10),[s*.112,.04,.01],{z:-s*.12});
       add(new THREE.CylinderGeometry(.118,.095,.16,12),[0,.05,-.07],{x:.2});
       add(new THREE.BoxGeometry(.16,.055,.03),[0,.165,.096]);
+    }else if(style===3){
+      // Chic high bun / topknot with volume
+      add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
+      add(new THREE.SphereGeometry(.065,14,12),[0,.235,-.06]);
+      add(new THREE.CylinderGeometry(.07,.055,.05,12),[0,.185,-.055]);
+      add(new THREE.BoxGeometry(.15,.045,.03),[0,.16,.095]);
+    }else if(style===4){
+      // Modern wavy lob / textured layered cut
+      add(new THREE.SphereGeometry(.125,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
+      for(const s of [-1,1]){
+        add(new THREE.CylinderGeometry(.07,.055,.22,10),[s*.12,.01,.015],{z:-s*.14,x:.1});
+        add(new THREE.SphereGeometry(.058,10,8),[s*.118,-.11,.02]);
+      }
+      add(new THREE.CylinderGeometry(.12,.10,.16,12),[0,.05,-.075],{x:.22});
+      add(new THREE.BoxGeometry(.16,.052,.03),[0,.165,.095]);
     }else{
+      // Style 0: Cascading long hair over shoulders
       add(new THREE.SphereGeometry(.124,16,12,0,Math.PI*2,0,Math.PI*.72),[0,.125,-.01]);
       for(const s of [-1,1]){
         add(new THREE.CylinderGeometry(.065,.058,.18,10),[s*.115,.05,.015],{z:-s*.1});
@@ -302,37 +349,63 @@ async function init() {
     const merged=mergeGeometries(geos,false);geos.forEach(g=>g.dispose());return merged;
   }
   const ponytailTieGeo=new THREE.CylinderGeometry(.038,.038,.032,12);ponytailTieGeo.rotateX(-.65);ponytailTieGeo.translate(0,.19,-.11);
+  const bunClipGeo=new THREE.TorusGeometry(.055,.008,8,16);bunClipGeo.rotateX(Math.PI/2);bunClipGeo.translate(0,.215,-.06);
   function getHairGeo(style){if(!hairGeoCache.has(style))hairGeoCache.set(style,buildHairGeometry(style));return hairGeoCache.get(style);}
   function createFemaleHair(style=0,hairColor='#261b16'){
     const g=new THREE.Group();
     const mat=new THREE.MeshStandardMaterial({color:hairColor,roughness:.82,metalness:.05});
     const mesh=new THREE.Mesh(getHairGeo(style),mat);mesh.castShadow=false;mesh.receiveShadow=true;g.add(mesh);
     if(style===1){const tie=new THREE.Mesh(ponytailTieGeo,mats.goldTrim);tie.castShadow=false;tie.receiveShadow=true;g.add(tie);}
+    if(style===3){const clip=new THREE.Mesh(bunClipGeo,mats.goldTrim);clip.castShadow=false;clip.receiveShadow=true;g.add(clip);}
     return g;
   }
+  const glassesGeo=(()=>{
+    const geos=[];const add=(g,pos)=>{g.translate(...pos);geos.push(g.index?g.toNonIndexed():g);};
+    for(const s of [-1,1]){add(new THREE.TorusGeometry(.025,.004,8,16),[s*.048,.122,.138]);}
+    add(new THREE.BoxGeometry(.026,.005,.006),[0,.122,.141]);
+    for(const s of [-1,1]){add(new THREE.BoxGeometry(.005,.005,.11),[s*.074,.124,.085]);}
+    const m=mergeGeometries(geos,false);geos.forEach(g=>g.dispose());return m;
+  })();
+  function createGlasses(color='#202228'){return new THREE.Mesh(glassesGeo,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.65}));}
   const peopleStyles = [
-    { suit: '#244268', shoes: '#1c1815', hair: '#221a15', skin: '#d69e7b', female: false, beard: false },
-    { suit: '#d65d54', shoes: '#4a2820', hair: '#281c16', skin: '#dc9f7d', female: true, hairStyle: 1 },
-    { suit: '#235842', shoes: '#1e1d1c', hair: '#36241a', skin: '#c88e67', female: false, beard: true },
-    { suit: '#8f3856', shoes: '#341d24', hair: '#1e1612', skin: '#d49774', female: true, hairStyle: 0 },
-    { suit: '#1d6b75', shoes: '#1e2225', hair: '#422b1e', skin: '#caa07a', female: true, hairStyle: 2 },
-    { suit: '#343b44', shoes: '#1a1a1a', hair: '#221915', skin: '#cf936f', female: false, beard: false },
-    { suit: '#a26a31', shoes: '#4a2e1d', hair: '#261b16', skin: '#d89e7a', female: false, beard: true },
-    { suit: '#af536d', shoes: '#3b2029', hair: '#342219', skin: '#d59a78', female: true, hairStyle: 0 },
-    { suit: '#496342', shoes: '#2f2219', hair: '#3f2d20', skin: '#c68b63', female: false, beard: false },
-    { suit: '#2b558f', shoes: '#1c1d24', hair: '#1b1512', skin: '#dca484', female: true, hairStyle: 1 },
-    { suit: '#68356d', shoes: '#2e1a2d', hair: '#4c3222', skin: '#bf8660', female: true, hairStyle: 2 },
-    { suit: '#141b26', shoes: '#0f0f12', hair: '#6a6866', skin: '#cfa07f', female: false, beard: true },
-    { suit: '#92452b', shoes: '#42271a', hair: '#281d18', skin: '#cd9470', female: false, beard: false },
-    { suit: '#cf825b', shoes: '#462b20', hair: '#201814', skin: '#dba37e', female: true, hairStyle: 0 },
-    { suit: '#23565a', shoes: '#1c2426', hair: '#251c17', skin: '#c48b66', female: false, beard: true },
-    { suit: '#50437d', shoes: '#27203b', hair: '#322018', skin: '#d29b76', female: true, hairStyle: 1 }
+    // 0: Visitor (male tech founder in white button-down, indigo jeans, white sneakers)
+    { top: '#f4f5f7', bottom: '#222f42', inner: '#f4f5f7', belt: '#382417', shoes: '#edeef0', hair: '#38251c', skin: '#dca080', female: false, beard: false },
+    // 1: Reception Lead (female, chic coral red top, navy tailored pants, tan shoes, ponytail)
+    { top: '#e04c38', bottom: '#1e293b', inner: '#fff5ed', belt: '#946e3e', shoes: '#824e35', hair: '#201614', skin: '#dfa280', female: true, hairStyle: 1 },
+    // 2: Operations Staff (male engineer, emerald knit sweater, beige chinos, brown loafers, glasses)
+    { top: '#25704a', bottom: '#ab9577', inner: '#ffffff', belt: '#362318', shoes: '#38251a', hair: '#241a15', skin: '#c88e67', female: false, beard: true, glasses: true },
+    // 3: Systems Lead (female director, royal cobalt blouse, off-white trousers, sleek bob)
+    { top: '#1f57ad', bottom: '#ede9e1', inner: '#f9f8f5', belt: '#a8813f', shoes: '#1e1c21', hair: '#40281c', skin: '#d59a76', female: true, hairStyle: 2 },
+    // 4: Desk 1 Operations (female analyst, sunny mustard crewneck, slate jeans, topknot bun)
+    { top: '#dba327', bottom: '#2b323c', inner: '#dba327', shoes: '#f2f3f5', hair: '#1a1512', skin: '#caa07a', female: true, hairStyle: 3 },
+    // 5: Desk 2 Operations (male engineer, crimson red casual overshirt, white tee, indigo jeans)
+    { top: '#b83344', bottom: '#1f2838', inner: '#fefefe', belt: '#2e1e16', shoes: '#78482e', hair: '#36251b', skin: '#cf936f', female: false, beard: false },
+    // 6: Desk 3 Business Systems (female designer, pastel lilac sweater, khaki chinos, long hair)
+    { top: '#8e5eb5', bottom: '#a89274', inner: '#8e5eb5', shoes: '#4e2e20', hair: '#ba9250', skin: '#dba484', female: true, hairStyle: 0 },
+    // 7: Desk 4 Business Systems (male dev, cyan/teal shirt, charcoal slacks, black shoes, beard)
+    { top: '#1c8b94', bottom: '#2c3038', inner: '#1c8b94', belt: '#1c1b1a', shoes: '#1a1a1a', hair: '#1e1814', skin: '#c48b66', female: false, beard: true },
+    // 8: Desk 5 Operations Studio (male data eng, heather grey sweatshirt, navy chinos, trainers)
+    { top: '#5f6c7a', bottom: '#1c2533', inner: '#ffffff', belt: '#262422', shoes: '#f0f2f5', hair: '#291e17', skin: '#cfa07f', female: false, beard: false, glasses: true },
+    // 9: Desk 6 Operations Studio (female UI lead, mint sage top, white pants, wavy lob)
+    { top: '#3a7d5e', bottom: '#ede9e1', inner: '#3a7d5e', belt: '#825332', shoes: '#885534', hair: '#6b2d1c', skin: '#d89e7a', female: true, hairStyle: 4 },
+    // 10: Desk 7 Work Studio (female analyst, vibrant rose pink cardigan, dark denim, ponytail)
+    { top: '#c94d76', bottom: '#212b3a', inner: '#fff0f4', shoes: '#1e1c1f', hair: '#201614', skin: '#d29774', female: true, hairStyle: 1 },
+    // 11: Desk 8 Director (distinguished male director, midnight navy blazer, sky blue shirt, charcoal trousers, silver hair)
+    { top: '#1a2d47', bottom: '#2d333b', inner: '#6894c4', belt: '#201712', shoes: '#4a1c22', hair: '#84878c', skin: '#d49f7e', female: false, beard: true },
+    // 12: Wanderer 1 Lounge (female marketing lead, terracotta orange top, slate pants, sleek bob)
+    { top: '#d95e2d', bottom: '#262d36', inner: '#d95e2d', shoes: '#7a472b', hair: '#3a2418', skin: '#dba37e', female: true, hairStyle: 2 },
+    // 13: Wanderer 2 Main Aisle (male product lead, royal blue polo, beige chinos, white sneakers)
+    { top: '#1e5cb3', bottom: '#a69275', inner: '#1e5cb3', belt: '#302219', shoes: '#f2f3f5', hair: '#221915', skin: '#c88e67', female: false, beard: false },
+    // 14: Wanderer 3 Ops Studio (female agile coach, emerald jade blouse, dark navy jeans, long hair)
+    { top: '#227d5b', bottom: '#202b3b', inner: '#eafff5', shoes: '#663a22', hair: '#1c1512', skin: '#d69e7b', female: true, hairStyle: 0 },
+    // 15: Wanderer 4 Work Studio (male writer, amber hoodie, charcoal jeans, white sneakers, beard)
+    { top: '#c78020', bottom: '#2f343d', inner: '#c78020', belt: '#241a14', shoes: '#f5f5f7', hair: '#181514', skin: '#cd9470', female: false, beard: true }
   ];
   function person(clothing = 'shirt', skin = 'skin', scale = 1) {
     const root = new THREE.Group(), model = cloneRig(humanTemplate);
     root.add(model); scene.add(root);
     const palette = { shirt: '#698299', white: '#b6b2a2', navy: '#52677d', olive: '#859176', brown: '#a28370' };
-    const cfg = typeof clothing === 'object' && clothing !== null ? clothing : { suit: palette[clothing] || (typeof clothing === 'string' && clothing.startsWith('#') ? clothing : palette.shirt) };
+    const cfg = typeof clothing === 'object' && clothing !== null ? clothing : { top: palette[clothing] || (typeof clothing === 'string' && clothing.startsWith('#') ? clothing : palette.shirt), bottom: '#263445' };
     const targetHeight = cfg.female ? 1.68 : 1.78;
     model.scale.setScalar(targetHeight / humanHeight * scale);
     model.position.y = .075 - humanBounds.min.y * model.scale.y;
@@ -344,17 +417,57 @@ async function init() {
         if (o.name === 'Object_11') { if (cfg.female || cfg.beard === false) o.visible = false; }
         if (o.name === 'Object_9') { if (cfg.female) o.visible = false; }
         o.material = o.material.clone(); o.material.metalness = 0; o.material.forceSinglePass = true; o.material.roughness = .82;
-        if (o.material.name.includes('look')) { const c = cfg.suit || cfg.outfit || palette[clothing] || palette.shirt; o.material.color.set(c) }
-        else if (o.material.name.includes('shoes')) { if (cfg.shoes) o.material.color.set(cfg.shoes) }
-        else if (o.material.name.includes('hair')) { if (cfg.hair) o.material.color.set(cfg.hair) }
-        else if (o.material.name.includes('body')) { if (cfg.skin) o.material.color.set(cfg.skin) }
+        if (o.material.name.includes('look')) {
+          o.material.map = null;
+          o.geometry = o.geometry.clone();
+          const pos = o.geometry.attributes.position;
+          const count = pos.count;
+          const colArr = new Float32Array(count * 3);
+          const topCol = new THREE.Color(cfg.top || cfg.suit || '#e05342');
+          const botCol = new THREE.Color(cfg.bottom || cfg.pants || '#263445');
+          const innerCol = new THREE.Color(cfg.inner || cfg.shirt || '#f5f6f8');
+          const beltCol = new THREE.Color(cfg.belt || '#201815');
+          for (let i = 0; i < count; i++) {
+            const y = pos.getY(i), x = pos.getX(i), z = pos.getZ(i);
+            let c = topCol;
+            if (y < .86) {
+              c = botCol;
+            } else if (y >= .86 && y < .90 && cfg.belt) {
+              c = beltCol;
+            } else if (cfg.inner && y >= 1.15 && y <= 1.48 && Math.abs(x) < .085 && z > .038) {
+              c = innerCol;
+            }
+            colArr[i * 3] = c.r;
+            colArr[i * 3 + 1] = c.g;
+            colArr[i * 3 + 2] = c.b;
+          }
+          o.geometry.setAttribute('color', new THREE.BufferAttribute(colArr, 3));
+          o.material.vertexColors = true;
+          o.material.color.set('#ffffff');
+          o.material.needsUpdate = true;
+        } else if (o.material.name.includes('shoes')) {
+          o.material.map = null;
+          if (cfg.shoes) o.material.color.set(cfg.shoes);
+          o.material.needsUpdate = true;
+        } else if (o.material.name.includes('hair')) {
+          o.material.map = null;
+          if (cfg.hair) o.material.color.set(cfg.hair);
+          o.material.needsUpdate = true;
+        } else if (o.material.name.includes('body')) {
+          if (cfg.skin) o.material.color.set(cfg.skin);
+        }
         if (o.material.map) o.material.map.anisotropy = maxAnisotropy;
         o.castShadow = false; o.receiveShadow = true; o.frustumCulled = false;
       }
     });
-    if (cfg.female && headBone) {
-      const hair = createFemaleHair(cfg.hairStyle || 0, cfg.hair || '#261b16');
-      headBone.add(hair);
+    if (headBone) {
+      if (cfg.female) {
+        const hair = createFemaleHair(cfg.hairStyle || 0, cfg.hair || '#261b16');
+        headBone.add(hair);
+      }
+      if (cfg.glasses) {
+        headBone.add(createGlasses(cfg.glassesColor || '#222226'));
+      }
     }
     const mixer = new THREE.AnimationMixer(model), idle = mixer.clipAction(idleClip).play(), walk = mixer.clipAction(walkClip).play();
     walk.setEffectiveWeight(0); mixer.update(0); let blend = 0; const savedPose = new Map(); const footShadow = shadow(0, 0, .75, .75);
@@ -390,11 +503,16 @@ async function init() {
   dynamic = true; const visitor = person(peopleStyles[0]); visitor.root.position.set(0, 0, 9.15); visitor.root.rotation.y = Math.PI; const receptionStaff = person(peopleStyles[1]); receptionStaff.root.position.set(-2.55, 0, 1.42); receptionStaff.idleStart(.4); const staff = person(peopleStyles[2]); staff.root.position.set(-8.2, 0, -6.3); staff.root.rotation.y = 1.1; staff.idleStart(1.2); const staff2 = person(peopleStyles[3]); staff2.root.position.set(5.35, 0, -2.5); staff2.root.rotation.y = -1; staff2.idleStart(2.3); const employees = [receptionStaff, staff, staff2]; const seated = []; for (const [i, [x, z]] of [[-6.7, -3.4], [-3.85, -6.8], [3.85, -3.4], [-14.4, -6.5], [-11.4, -3.3], [11.4, -6.5], [14.4, -3.3], [12.7, 3.4]].entries()) { const human = person(peopleStyles[4 + i], 'skin', .94 + (i % 3) * .04); human.root.position.set(x, -.45, i === 7 ? 2.25 : z + 1); human.root.rotation.y = i === 7 ? 0 : Math.PI; human.root.userData.seated = true; human.idleStart(i * .73); employees.push(human); seated.push(human) }
   const wanderers = []; for (const [i, points] of [[[-8.3, 5.3], [-8.3, -.6], [-5.8, -.6], [-5.8, 5.3]], [[2.3, 6.3], [4, 6.3], [4, 1.0], [2.3, 1.0]], [[-15.5, .2], [-10.5, .2], [-10.5, 6.4], [-15.5, 6.4]], [[10, -.2], [15.5, -.2], [15.5, 1.2], [10, 1.2]]].entries()) { const human = person(peopleStyles[12 + i]); human.root.position.set(points[0][0], 0, points[0][1]); human.idleStart(i * .65); employees.push(human); wanderers.push({ human, points, index: 1, distance: 0, pause: i * .8, speed: .62 + i * .065 }) }
   const outdoorStyles = [
-    { suit: '#2d4756', shoes: '#17191b', hair: '#1a1614', skin: '#d69e7b', female: false, beard: false },
-    { suit: '#b25740', shoes: '#3d2218', hair: '#362218', skin: '#dba280', female: true, hairStyle: 1 },
-    { suit: '#3e583c', shoes: '#1e231c', hair: '#291e17', skin: '#c88c63', female: false, beard: true },
-    { suit: '#264e72', shoes: '#1a1f26', hair: '#221813', skin: '#dc9e7c', female: true, hairStyle: 2 },
-    { suit: '#7e3f5e', shoes: '#2a1a23', hair: '#382218', skin: '#d29774', female: true, hairStyle: 0 }
+    // 0: Female in cherry red windbreaker, indigo denim, white sneakers, golden ponytail
+    { top: '#d62f3f', bottom: '#1c2536', inner: '#ffffff', shoes: '#f4f5f8', hair: '#c29957', skin: '#dba280', female: true, hairStyle: 1 },
+    // 1: Male in sunny golden hoodie, charcoal joggers, dark brown boots
+    { top: '#dba026', bottom: '#272b33', inner: '#dba026', shoes: '#442b1c', hair: '#2a1e17', skin: '#c98d64', female: false, beard: false },
+    // 2: Female in vibrant turquoise jacket, white pants, sleek bob
+    { top: '#18a0b5', bottom: '#f0ece4', inner: '#ffffff', shoes: '#f5f5f7', hair: '#1b1614', skin: '#d59a76', female: true, hairStyle: 2 },
+    // 3: Male in forest emerald jacket, beige khakis, white sneakers, beard
+    { top: '#276d47', bottom: '#9e896d', inner: '#ffffff', shoes: '#f4f5f8', hair: '#382419', skin: '#d69e7b', female: false, beard: true },
+    // 4: Female in rich royal purple sweater, stone grey pants, topknot bun
+    { top: '#803ca8', bottom: '#434954', inner: '#803ca8', shoes: '#1c1a1d', hair: '#702c1b', skin: '#dc9f7c', female: true, hairStyle: 3 }
   ];
   const outdoorWalkers = [];
   const outdoorPaths = [
@@ -408,11 +526,11 @@ async function init() {
     const human = person(outdoorStyles[i], 'skin', .96 + (i % 2) * .04);
     human.root.position.set(points[0][0], -.68, points[0][1]);
     human.idleStart(i * .91);
-    outdoorWalkers.push({ human, points, index: 1, distance: 0, pause: i * .6, speed: .65 + i * .05 });
+    outdoorWalkers.push({ human, points, index: 1, distance: 0, pause: i * .2, speed: .68 + i * .05 });
   }
   dynamic = false;
   // Merge immovable opaque architecture by material to reduce draw calls.
-  const excluded = [visitor.root, ...employees.map(p => p.root), ...outdoorWalkers.map(p => p.root), ...movingCars.map(c => c.g), backWall, sideWall, eastSideWall, ...doors]; function excludedTree(o) { for (let p = o; p; p = p.parent)if (excluded.includes(p)) return true; return false } scene.updateMatrixWorld(true); staticObjects.length = 0; scene.traverse(o => { if (o.isMesh && !o.material.transparent && !excludedTree(o)) staticObjects.push(o) }); visitor.root.traverse(o => { if (o.isMesh) o.castShadow = false }); for (const p of outdoorWalkers) p.human.root.traverse(o => { if (o.isMesh) o.castShadow = false });
+  const excluded = [visitor.root, ...employees.map(p => p.root), ...outdoorWalkers.map(p => p.human.root), ...movingCars.map(c => c.g), backWall, sideWall, eastSideWall, ...doors]; function excludedTree(o) { for (let p = o; p; p = p.parent)if (excluded.includes(p)) return true; return false } scene.updateMatrixWorld(true); staticObjects.length = 0; scene.traverse(o => { if (o.isMesh && !o.material.transparent && !excludedTree(o)) staticObjects.push(o) }); visitor.root.traverse(o => { if (o.isMesh) o.castShadow = false }); for (const p of outdoorWalkers) p.human.root.traverse(o => { if (o.isMesh) o.castShadow = false });
   const byMaterial = new Map(); for (const o of staticObjects) { o.updateMatrixWorld(true); const transformed = o.geometry.clone().applyMatrix4(o.matrixWorld); const geo = transformed.index ? transformed.toNonIndexed() : transformed; const key = o.material.uuid; if (!byMaterial.has(key)) byMaterial.set(key, { material: o.material, geos: [] }); byMaterial.get(key).geos.push(geo); o.removeFromParent() } for (const { material, geos } of byMaterial.values()) { const geo = mergeGeometries(geos, false); if (geo) { const o = new THREE.Mesh(geo, material); o.castShadow = true; o.receiveShadow = true; scene.add(o) } geos.forEach(g => g.dispose()) }
   const hotspots = []; for (const [id, label, pos] of [['reception', 'Reception', [-2.6, 1.6, 2.5]], ['payments', 'Payments', [-5.3, 1.5, -3.2]], ['business', 'Business systems', [5.0, 1.5, -3.2]], ['meeting', 'Meeting room', [.7, 1.5, -6.7]], ['operations', 'Operations', [-13, 1.4, -4]], ['lounge', 'The lounge', [-13, 1.3, 2.5]], ['cabin', 'Director', [13, 1.4, 3.5]]]) { const button = document.createElement('button'); button.className = 'hotspot'; button.textContent = label; button.setAttribute('aria-label', `Visit ${label}`); button.onclick = () => go(id); stage.appendChild(button); hotspots.push({ button, id, point: new THREE.Vector3(...pos) }) }
   let w, h, viewSize = stage.clientWidth < 650 ? 65 : stage.clientWidth < 1000 ? 39 : 34, offsetX = 0, offsetY = 0;
@@ -468,7 +586,7 @@ async function init() {
       dir.y = 0; const distance = dir.length();
       if (distance < .03) {
         w.index = (w.index + 1) % w.points.length;
-        w.pause = 1.1 + (w.index % 2) * .8;
+        w.pause = .25 + (w.index % 2) * .25;
         w.human.walk(0, false, dt);
       } else {
         const yaw = Math.atan2(dir.x, dir.z);

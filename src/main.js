@@ -150,18 +150,23 @@ async function init() {
   softBox(12.7, .79, 3.4, 3.6, .14, 1.6, 'smokedOak', scene, .035); box(12.7, .79, 3.4, 3.64, .02, 1.64, 'goldTrim'); softBox(12.7, .865, 3.4, 1.8, .015, 1.0, 'deskPad', scene, .02); for (const x of [11.3, 14.1]) box(x, .4, 3.4, .14, .75, 1.3, 'smokedOak'); monitor(12.7, 3.0, Math.PI, 'director'); chair(12.7, 2.25, 0, 'director'); chair(11.8, 4.55, Math.PI, 'emerald'); chair(13.6, 4.55, Math.PI, 'emerald'); cyl(14.0, .96, 3.2, .06, .02, 'brass'); cyl(14.0, 1.12, 3.2, .015, .32, 'brass'); softBox(14.0, 1.28, 3.2, .24, .06, .12, 'brass'); laptop(12.1, .876, 3.2, 'laptopGold'); cup(13.4, .876, 3.2, 'white'); partition(14, 5.7, 4); wallLabel('DIRECTOR', 13, 1.6, 5.65, 2, .28);
   plant(-16.1, .6, .38, 1.6, 'ceramicBlack'); plant(-9.8, 7.3, .45, 1.8, 'ceramicTerracotta'); plant(9.8, .6, .38, 1.6, 'brass'); plant(16.1, 7.3, .45, 1.8, 'ceramicWhite');
   for (const x of [-13, 13]) { box(x, .58, 7.75, 7.8, 1.16, .018, glass); for (const dx of [-3.9, 0, 3.9]) box(x + dx, .62, 7.75, .035, 1.23, .035, 'metal'); }
-  mat('asphalt', '#262a30'); mat('grass', '#94a880'); mat('city', '#e2e0d8'); mat('window', '#587e91', .3);
+  mat('asphalt', '#262a30'); mat('grass', '#6ea05b'); mat('city', '#f1efe7'); mat('window', '#587e91', .3);
   mat('concreteDark', '#2d333b', .8); mat('buildingStone', '#ebe8df', .75); mat('buildingGlass', '#264b63', .15, .45); mat('buildingBronze', '#5a4635', .4, .6); mat('roofDark', '#1e2228', .85);
-  mat('bldTerracotta', '#a85038', .78); mat('bldWhiteStone', '#ebe8df', .75); mat('bldSandstone', '#d8c7a8', .8);
-  mat('bldRoyalNavy', '#16283b', .6); mat('bldEmerald', '#1d5448', .5); mat('bldBronze', '#614833', .45, .55);
-  mat('bldSlateGrey', '#374151', .75); mat('bldCoralOchre', '#a85437', .75); mat('bldDarkBasalt', '#1c2128', .85);
-  mat('bldGlassAzure', '#245272', .12, .55); mat('bldGlassCyan', '#1f5f63', .12, .55); mat('bldGlassGold', '#69553b', .18, .5); mat('bldGlassSmoke', '#242b33', .18, .45);
+  mat('bldTerracotta', '#a85038', .78); mat('bldWhiteStone', '#f8fafc', .8); mat('bldSandstone', '#e7dfce', .8);
+  mat('bldRoyalNavy', '#1e293b', .6); mat('bldEmerald', '#1d5448', .5); mat('bldBronze', '#614833', .45, .55);
+  mat('bldSlateGrey', '#475569', .75); mat('bldCoralOchre', '#a85437', .75); mat('bldDarkBasalt', '#262e38', .85);
+  mat('bldGlassAzure', '#38bdf8', .08, .55); mat('bldGlassCyan', '#06b6d4', .08, .55); mat('bldGlassGold', '#d4af37', .18, .5); mat('bldGlassIce', '#7dd3fc', .05, .6);
+  mat('bldLouver', '#e2e8f0', .5);
   mat('marketGreen', '#15803d', .7); mat('marketAwning', '#166534', .8);
   mat('cafeWood', '#2e1d13', .75); mat('cafeAwning', '#9a3412', .8);
-  mat('retailGlass', '#21495c', .10, .5); mat('awningCream', '#faf5eb', .8);
+  mat('retailGlass', '#38bdf8', .10, .4); mat('awningCream', '#faf5eb', .8);
   mat('bikeRed', '#e11d48', .4, .4); mat('busGlass', '#68a1b0', .12, .3);
   mats.headlight = new THREE.MeshBasicMaterial({ color: '#fffadc' }); mats.taillight = new THREE.MeshBasicMaterial({ color: '#ff2525' });
-  box(0, -1, -3, 90, .4, 80, 'city');
+  mats.lobbyGlow = new THREE.MeshBasicMaterial({ color: '#fef3c7' });
+  mats.beaconRed = new THREE.MeshBasicMaterial({ color: '#ef4444' });
+  mats.flowerRed = new THREE.MeshStandardMaterial({ color: '#e11d48', roughness: .6 });
+  mats.flowerYellow = new THREE.MeshStandardMaterial({ color: '#facc15', roughness: .6 });
+  box(0, -1, -6, 110, .4, 100, 'city');
   box(0, -.77, -19, 90, .04, 6, 'asphalt');
   box(23, -.77, 3, 6, .04, 80, 'asphalt');
   box(-23, -.77, 3, 6, .04, 80, 'asphalt');
@@ -176,46 +181,120 @@ async function init() {
   // Outer sidewalks for commercial shops (safely between road and buildings)
   box(-30.5, -.74, -0.5, 7, .1, 21, 'stone');
   box(30.5, -.74, -0.5, 7, .1, 21, 'stone');
-  // City buildings and architectural skyline
 
-  function cityBuilding(x, z, width, depth, height, style = 'tower', theme = {}) {
-    const bodyMat = theme.body || 'bldWhiteStone';
-    const baseMat = theme.base || 'bldDarkBasalt';
-    const glassMat = theme.glass || 'bldGlassAzure';
-    const trimMat = theme.trim || (style === 'deco' ? 'goldTrim' : 'edge');
-    const baseH = Math.min(2.8, height * .25);
-    box(x, baseH / 2 - .75, z, width + .35, baseH, depth + .35, baseMat);
-    const canopyZ = z > 0 ? z - depth / 2 - .5 : z + depth / 2 + .5;
-    box(x, baseH - .75, canopyZ, Math.min(5.2, width * .55), .15, 1.4, bodyMat);
-    box(x, (baseH - .75) / 2, canopyZ, .12, baseH - .75, .12, 'metal');
-    const bodyH = height - baseH, bodyY = baseH - .75 + bodyH / 2;
-    box(x, bodyY, z, width, bodyH, depth, bodyMat);
-    for (let y = baseH - .75 + 1.8; y < height - .8; y += 1.8) box(x, y, z, width + .14, .14, depth + .14, trimMat);
-    for (let y = baseH - .75 + .8; y < height - 1.2; y += 1.8) {
-      for (let a = -width / 2 + .8; a <= width / 2 - .8; a += 1.4) { box(x + a, y, z + depth / 2 + .018, .86, .98, .025, glassMat); box(x + a, y, z - depth / 2 - .018, .86, .98, .025, glassMat); }
-      for (let b = -depth / 2 + .8; b <= depth / 2 - .8; b += 1.4) { box(x + width / 2 + .018, y, z + b, .025, .98, .86, glassMat); box(x - width / 2 - .018, y, z + b, .025, .98, .86, glassMat); }
+  // Background Promenade, Parkway Lawn, Plaza, and EXACTLY 3 Modern Skyline Towers:
+  // 1. North Promenade Sidewalk (North of North road, z from -22 to -25.2)
+  box(0, -.74, -23.6, 96, .1, 3.2, 'stone');
+  // Row of 7 street trees along the North sidewalk
+  for (const tx of [-27, -18, -9, 0, 9, 18, 27]) streetTree(tx, -23.6);
+  // Modern pathway LED bollards along promenade
+  for (const tx of [-22.5, -13.5, -4.5, 4.5, 13.5, 22.5]) {
+    cyl(tx, -.55, -23.6, .07, .38, 'metal'); cyl(tx, -.35, -23.6, .072, .05, 'headlight');
+  }
+  // 2. Central Greenway Park Belt (between sidewalk and towers, z from -25.2 to -41.8, full 16.6m width!)
+  box(0, -.72, -33.5, 96, .08, 16.6, 'grass');
+  // Manicured boxwood hedges along park border
+  for (const tx of [-28, -21, -14, -7, 0, 7, 14, 21, 28]) hedge(tx, -25.8, 1.4, .65, .5);
+  // Cross-walkways connecting sidewalk through park to the 3 towers
+  for (const wx of [-20, 0, 20]) box(wx, -.715, -33.5, 2.4, .09, 16.0, 'stone');
+  // Modern park benches in greenway
+  for (const bx of [-10, 10]) {
+    box(bx, -.5, -33, 1.8, .4, .55, 'wood'); box(bx, -.3, -33.22, 1.8, .45, .08, 'wood');
+    cyl(bx - .8, -.55, -33, .04, .35, 'metal'); cyl(bx + .8, -.55, -33, .04, .35, 'metal');
+  }
+  // Perennial flower beds
+  for (const fx of [-15, 15]) {
+    box(fx, -.65, -34, 3.2, .2, 1.8, 'stone'); box(fx, -.52, -34, 2.9, .15, 1.5, 'grass');
+    box(fx - .8, -.42, -34, .4, .1, .4, 'flowerRed'); box(fx, -.42, -34, .4, .1, .4, 'flowerYellow'); box(fx + .8, -.42, -34, .4, .1, .4, 'flowerRed');
+  }
+  // 3. Paved Tower Promenade & Plaza at base of towers (z from -41.8 to -48)
+  box(0, -.73, -44.8, 76, .1, 6.0, 'stone');
+  // Low wide plaza steps leading up to each of the 3 tower entrances
+  for (const tx of [-20, 0, 20]) {
+    box(tx, -.68, -42.0, 5.0, .08, 1.2, 'stone');
+    box(tx, -.62, -42.6, 4.4, .08, 1.0, 'stone');
+  }
+
+  // THE 3 MAIN BACKGROUND SKYLINE TOWERS (Only 3 towers, seated 21+ meters behind road):
+  function skylineTower(x, z, width, depth, height, variant = 'lumina') {
+    const lobbyH = 3.0;
+    // Transparent double-height lobby with warm interior illumination
+    box(x, lobbyH / 2 - .75, z, width * .75, lobbyH - .2, depth * .6, 'lobbyGlow');
+    box(x, lobbyH / 2 - .75, z + depth / 2 + .01, width - .8, lobbyH - .2, .04, 'bldGlassAzure');
+    // Travertine corner and structural piers
+    for (const sx of [-width / 2, width / 2]) for (const sz of [-depth / 2, depth / 2]) {
+      box(x + sx, lobbyH / 2 - .75, z + sz, .7, lobbyH, .7, 'bldWhiteStone');
     }
-    const topY = height - .75; box(x, topY + .12, z, width + .2, .28, depth + .2, baseMat);
-    box(x - width * .08, topY + 1.0, z - depth * .08, width * .44, 1.8, depth * .44, 'roofDark');
-    cyl(x + width * .2, topY + .7, z + depth * .15, .55, .9, 'metal'); cyl(x + width * .2, topY + .7, z - depth * .15, .55, .9, 'metal');
-    if (style === 'highrise' || style === 'tower' || style === 'deco') {
-      cyl(x - width * .08, topY + 4.2, z - depth * .08, .04, 4.6, 'goldTrim');
-      cyl(x - width * .08, topY + 6.5, z - depth * .08, .015, 2.2, 'metal');
+    // Cantilevered entrance canopy
+    box(x, lobbyH - .75, z + depth / 2 + .55, width * .55, .12, 1.5, 'goldTrim');
+    box(x, lobbyH - .77, z + depth / 2 + .55, width * .45, .02, .08, 'headlight');
+    box(x, lobbyH - .75, z, width + .3, .18, depth + .3, 'goldTrim');
+
+    // Tower Body shaft: clean horizontal ribbon glass and crisp white stone spandrels
+    const shaftH = height - lobbyH;
+    const shaftY = lobbyH - .75 + shaftH / 2;
+    box(x, shaftY, z, width, shaftH, depth, 'bldWhiteStone');
+
+    // Ribbon windows and sun louvers per floor
+    for (let y = lobbyH - .75 + 1.2; y < height - 1.2; y += 1.9) {
+      // Azure glass bands
+      box(x, y, z + depth / 2 + .02, width - .8, 1.15, .04, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
+      box(x, y, z - depth / 2 - .02, width - .8, 1.15, .04, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
+      box(x + width / 2 + .02, y, z, .04, 1.15, depth - .8, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
+      box(x - width / 2 - .02, y, z, .04, 1.15, depth - .8, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
+      // Thin champagne spandrel accent
+      box(x, y + .7, z, width + .1, .08, depth + .1, 'goldTrim');
+      // Vertical architectural mullions
+      for (let mx = -width / 2 + 1.2; mx <= width / 2 - 1.2; mx += 1.8) {
+        box(x + mx, y, z + depth / 2 + .035, .04, 1.2, .06, 'metal');
+      }
+    }
+
+    const topY = height - .75;
+    if (variant === 'lumina') {
+      // Center Tower: Iconic stepped crown, glazed penthouse, architectural mast & beacon
+      box(x, topY + .15, z, width + .2, .3, depth + .2, 'goldTrim');
+      box(x, topY + 1.1, z, width * .7, 1.6, depth * .7, 'bldGlassAzure');
+      box(x, topY + 2.0, z, width * .75, .2, depth * .75, 'goldTrim');
+      cyl(x, topY + 3.6, z, .06, 3.0, 'goldTrim');
+      cyl(x, topY + 5.5, z, .02, 1.8, 'metal');
+      box(x, topY + 6.5, z, .14, .14, .14, 'beaconRed');
+    } else if (variant === 'nordic') {
+      // Left Tower: Rooftop sky-terrace, glass balustrade, timber pergola, evergreen planters
+      box(x, topY + .12, z, width + .15, .24, depth + .15, 'goldTrim');
+      box(x, topY + .5, z + depth / 2, width * .9, .6, .03, 'busGlass');
+      box(x, topY + 1.4, z, width * .65, .08, depth * .65, 'darkWood');
+      for (const px of [x - 3.2, x + 3.2]) {
+        box(px, topY + .35, z, .9, .4, .9, 'stone');
+        box(px, topY + .7, z, .75, .35, .75, 'grass');
+        box(px, topY + .95, z, .55, .25, .55, 'leaf');
+      }
+    } else {
+      // Right Tower: Beveled titanium cornice, recessed mechanical penthouse, roof louvers
+      box(x, topY + .18, z, width + .25, .36, depth + .25, 'goldTrim');
+      box(x, topY + 1.0, z, width * .65, 1.3, depth * .65, 'bldWhiteStone');
+      for (const lz of [-1.5, 0, 1.5]) box(x, topY + 1.8, z + lz, width * .55, .06, .22, 'metal');
     }
   }
-  // North background skyline (strictly at z <= -34, at least 12 meters clear of North road z = -22)
-  cityBuilding(-16, -35, 13, 10, 18, 'tower', { body: 'bldSandstone', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'goldTrim' });
-  cityBuilding(0, -37, 15, 10, 22, 'deco', { body: 'bldSlateGrey', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'goldTrim' });
-  cityBuilding(16, -35, 13, 10, 18, 'curtain', { body: 'bldRoyalNavy', base: 'concreteDark', glass: 'bldGlassCyan', trim: 'metal' });
-  cityBuilding(-36, -36, 12, 10, 16, 'modern', { body: 'bldWhiteStone', base: 'bldDarkBasalt', glass: 'bldGlassSmoke', trim: 'metal' });
-  cityBuilding(36, -36, 12, 10, 17, 'deco', { body: 'bldWhiteStone', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'goldTrim' });
-  // Far background East corporate highrise (far North behind the East shopping pavilion)
-  cityBuilding(42, -32, 12, 10, 18, 'curtain', { body: 'bldRoyalNavy', base: 'bldDarkBasalt', glass: 'bldGlassCyan', trim: 'goldTrim' });
-  // West commercial building (x <= -31, z between -8 and 8; 100% clear of all roads)
-  cityBuilding(-36, 0, 10, 16, 11, 'modern', { body: 'bldSlateGrey', base: 'bldDarkBasalt', glass: 'bldGlassAzure', trim: 'white' });
+
+  // 1. Center: The Lumina Spire (Clean white stone, sky azure glass, champagne gold crown & spire)
+  skylineTower(0, -46.5, 13.5, 7.5, 15.5, 'lumina');
+  // 2. Left: Nordic Innovation Highrise (Scandinavian white stone, sky azure ribbon glass, rooftop garden)
+  skylineTower(-20, -46.5, 11.5, 7.0, 12.5, 'nordic');
+  // 3. Right: Solaria Horizon Tower (Clean white stone, cyan curtain glass, beveled crown)
+  skylineTower(20, -46.5, 11.5, 7.0, 13.5, 'solaria');
+
+  // West commercial building: Clean 3-story modern commercial pavilion (x <= -31, z between -8 and 8; 100% clear of all roads)
+  box(-36, 4.0, 0, 10, 9.5, 16, 'bldWhiteStone');
+  box(-36, -.55, 0, 10.2, .38, 16.2, 'stone');
+  box(-36, 8.8, 0, 10.2, .24, 16.2, 'goldTrim');
+  for (let y = 1.8; y < 8.0; y += 2.2) {
+    box(-30.95, y, 0, .05, 1.2, 14.5, 'bldGlassAzure');
+    box(-36, y, 8.05, 8.0, 1.2, .05, 'bldGlassAzure');
+  }
   // METRO SUPERMART & FRESH MARKET: Ground floor storefront on West sidewalk
   // East-facing storefront (facing road):
-  box(-30.9, .85, 0, .18, 3.2, 14.5, 'bldDarkBasalt');
+  box(-30.9, .85, 0, .18, 3.2, 14.5, 'metal');
   for (let sz = -6.5; sz <= 5.5; sz += 2.2) {
     box(-30.85, .85, sz, .08, 2.5, 2.0, 'retailGlass');
     box(-30.82, .85, sz, .04, 2.55, .06, 'metal');
@@ -223,7 +302,7 @@ async function init() {
   const martSign = textPlane('METRO SUPERMART · ORGANIC & FRESH', 9.2, .85, '#ffffff', 52, '#15803d');
   martSign.position.set(-30.78, 2.55, 0); martSign.rotation.y = Math.PI / 2; scene.add(martSign);
   // South-facing storefront (facing front camera!):
-  box(-36, .85, 8.05, 9.8, 3.2, .18, 'bldDarkBasalt');
+  box(-36, .85, 8.05, 9.8, 3.2, .18, 'metal');
   box(-36, .85, 8.1, 7.8, 2.5, .08, 'retailGlass');
   const martSouthSign = textPlane('METRO SUPERMART', 5.6, .7, '#ffffff', 48, '#15803d');
   martSouthSign.position.set(-36, 2.55, 8.16); scene.add(martSouthSign);

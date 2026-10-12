@@ -1,0 +1,78 @@
+[
+  {
+    "mobile": false,
+    "errors": [],
+    "zoomButtons": 0,
+    "before": {
+      "freeCam": true,
+      "qualityMode": "auto",
+      "pixelRatio": 1,
+      "viewSize": 34,
+      "viewGoal": 34,
+      "target": [
+        0,
+        0.3,
+        -1
+      ]
+    },
+    "after": {
+      "freeCam": true,
+      "qualityMode": "auto",
+      "pixelRatio": 1,
+      "viewSize": 25.954903272278493,
+      "viewGoal": 25.954902807453006,
+      "target": [
+        1.7074081128118124,
+        1.58019871747318,
+        -3.342803996171938
+      ]
+    },
+    "anchorDriftWorldUnits": 0.00003774230453067762,
+    "motionBounds": {
+      "x": 1313.296875,
+      "y": 757,
+      "width": 78.703125,
+      "height": 44
+    },
+    "pinchOrWheelZoomedIn": true,
+    "passed": true
+  },
+  {
+    "mobile": true,
+    "errors": [],
+    "zoomButtons": 0,
+    "before": {
+      "freeCam": true,
+      "qualityMode": "auto",
+      "pixelRatio": 1,
+      "viewSize": 65,
+      "viewGoal": 65,
+      "target": [
+        0,
+        0.3,
+        -1
+      ]
+    },
+    "after": {
+      "freeCam": true,
+      "qualityMode": "auto",
+      "pixelRatio": 1,
+      "viewSize": 35.75000168999144,
+      "viewGoal": 35.75000000000001,
+      "target": [
+        -0.6961434076873729,
+        2.604660421954242,
+        -2.1609403096624646
+      ]
+    },
+    "anchorDriftWorldUnits": 0.000008277061894142254,
+    "motionBounds": {
+      "x": 309.6875,
+      "y": 88,
+      "width": 66.3125,
+      "height": 44
+    },
+    "pinchOrWheelZoomedIn": true,
+    "passed": true
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "name": "jodetx-office-experience",
+  "version": "7.0.0",
+  "description": "Reference-inspired Jodetx living-office experience with cursor and pinch zoom",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

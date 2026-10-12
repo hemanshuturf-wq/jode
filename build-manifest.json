@@ -1,0 +1,13 @@
+{
+  "standaloneSha256": "971c1b6e5761e8638360d2a94a29b0ca52bba94e6e7c970a26d2ae3e37cba7c8",
+  "sourceVersion": "7.0.0",
+  "standaloneBytes": 11684863,
+  "externalRuntimeDependencies": false,
+  "noZoomButtons": true,
+  "desktopZoom": "scroll at cursor",
+  "phoneZoom": "pinch at midpoint",
+  "testedViewports": [
+    "1440x900",
+    "390x844"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "errors": [],
+  "normalClose": true,
+  "orbitChanged": true,
+  "panChanged": true,
+  "wheelZoom": 25.954902807453006,
+  "keyboardChanged": true,
+  "quality": {
+    "freeCam": true,
+    "qualityMode": "performance",
+    "pixelRatio": 1,
+    "viewSize": 25.955268054300483,
+    "viewGoal": 25.954902807453006,
+    "target": [
+      -0.5864685535519261,
+      1.9669298915227682,
+      -12.177265366390703
+    ]
+  },
+  "productRoute": "file:///data/jodetx-build/jodetx-office-v6/jodetx-office.html#/product/ParkingX",
+  "backTitle": "The Jodetx portfolio.",
+  "exportSaved": true,
+  "confirmation": "✓\nYour enquiry draft is ready.\n\nSaved as a text-file download. It has not been sent to Jodetx.\n\nContinue to official onboarding ↗Prepare another draft →",
+  "resetValue": "",
+  "reduced": {
+    "state": "arrived",
+    "destination": "meeting",
+    "currentRoom": "meeting",
+    "pending": null,
+    "generation": 1,
+    "progress": 1,
+    "position": [
+      -0.9,
+      0,
+      -5
+    ],
+    "target": [
+      -0.9,
+      0,
+      -5
+    ],
+    "walkWeight": 0,
+    "camera": [
+      10.999999999999998,
+      10,
+      7
+    ],
+    "cameraGoal": [
+      11,
+      10,
+      7
+    ],
+    "cameraError": 1.7763568394002505e-15,
+    "settleTime": 0.016666666666666666,
+    "headingError": 0
+  },
+  "motionBounds": {
+    "x": 282.171875,
+    "y": 88,
+    "width": 93.828125,
+    "height": 44
+  }
+}

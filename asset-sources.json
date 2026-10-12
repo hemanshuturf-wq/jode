@@ -1,0 +1,277 @@
+{
+  "https://jodetx.com/assets/access1.png": {
+    "path": "assets/official/b9108690b4f4.webp",
+    "alt": "Secure Access",
+    "bytes": 31586
+  },
+  "https://jodetx.com/assets/dash1.png": {
+    "path": "assets/official/343c9a260e82.webp",
+    "alt": "Dashboard",
+    "bytes": 44440
+  },
+  "https://jodetx.com/assets/aeps1.png": {
+    "path": "assets/official/8059b44575cb.webp",
+    "alt": "AePS",
+    "bytes": 40176
+  },
+  "https://jodetx.com/assets/B2B1.png": {
+    "path": "assets/official/b50f00d01b03.webp",
+    "alt": "B2B",
+    "bytes": 59864
+  },
+  "https://jodetx.com/assets/transaction1.png": {
+    "path": "assets/official/0b4ee1acd68f.webp",
+    "alt": "Payments",
+    "bytes": 41174
+  },
+  "https://jodetx.com/assets/account1.png": {
+    "path": "assets/official/ec390d847853.webp",
+    "alt": "Accounts",
+    "bytes": 53924
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(19).jpg": {
+    "path": "assets/official/60d396377de2.webp",
+    "alt": "Secure Login",
+    "bytes": 21892
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(16).jpg": {
+    "path": "assets/official/d7233b1561ad.webp",
+    "alt": "Parking Dashboard",
+    "bytes": 39632
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(15).jpg": {
+    "path": "assets/official/4539c253407b.webp",
+    "alt": "Vehicle History",
+    "bytes": 25176
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(14).jpg": {
+    "path": "assets/official/ac18f2e95099.webp",
+    "alt": "Vehicle Check-In",
+    "bytes": 17172
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(8).jpg": {
+    "path": "assets/official/b91e72bf2d8e.webp",
+    "alt": "Generate Pass",
+    "bytes": 21836
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media%20(3).jpg": {
+    "path": "assets/official/e5598ab5a148.webp",
+    "alt": "Payments & QR",
+    "bytes": 23666
+  },
+  "https://jodetx.com/assets/ParkingX%20img/Media.jpg": {
+    "path": "assets/official/83d7ca292977.webp",
+    "alt": "Profile & Settings",
+    "bytes": 24272
+  },
+  "https://jodetx.com/assets/secure1.png": {
+    "path": "assets/official/53be0402268b.webp",
+    "alt": "Secure Access",
+    "bytes": 39432
+  },
+  "https://jodetx.com/assets/dashboard1.png": {
+    "path": "assets/official/d07eb78ed545.webp",
+    "alt": "Dashboard",
+    "bytes": 55386
+  },
+  "https://jodetx.com/assets/visit1.png": {
+    "path": "assets/official/b2334aa64773.webp",
+    "alt": "Visitor Management",
+    "bytes": 39286
+  },
+  "https://jodetx.com/assets/pre-approve1.png": {
+    "path": "assets/official/61e6a407b744.webp",
+    "alt": "Guest Pre-Approval",
+    "bytes": 48960
+  },
+  "https://jodetx.com/assets/payment1.png": {
+    "path": "assets/official/90b20780ee5e.webp",
+    "alt": "Billing & Payments",
+    "bytes": 47896
+  },
+  "https://jodetx.com/assets/family1.png": {
+    "path": "assets/official/2a62fef55a7a.webp",
+    "alt": "Resident & Family",
+    "bytes": 34828
+  },
+  "https://jodetx.com/assets/notice1.png": {
+    "path": "assets/official/534ae0e33bf4.webp",
+    "alt": "Notices & Support",
+    "bytes": 37336
+  },
+  "https://jodetx.com/assets/pigmyx_images/a39b71a1-68b8-4137-8783-dda0df5e5b22.jpg": {
+    "path": "assets/official/be0e71353f96.webp",
+    "alt": "Secure Login",
+    "bytes": 7120
+  },
+  "https://jodetx.com/assets/pigmyx_images/12f90ba5-f636-4f88-aea5-314f71ccd410.jpg": {
+    "path": "assets/official/eac1301c66e5.webp",
+    "alt": "Customer Collection",
+    "bytes": 29394
+  },
+  "https://jodetx.com/assets/pigmyx_images/1a233fd8-0d36-432c-a61e-517da078f391.jpg": {
+    "path": "assets/official/4cd2ccc07a81.webp",
+    "alt": "My Route",
+    "bytes": 42684
+  },
+  "https://jodetx.com/assets/pigmyx_images/28ad50b6-2b0f-46ad-a1a8-08993b5b81e4.jpg": {
+    "path": "assets/official/cf4f5e2ac467.webp",
+    "alt": "Deposit Cash",
+    "bytes": 18720
+  },
+  "https://jodetx.com/assets/pigmyx_images/16975cf2-a989-4dab-96ed-12dc19d164a6.jpg": {
+    "path": "assets/official/199b5574e0af.webp",
+    "alt": "Reports Center",
+    "bytes": 23130
+  },
+  "https://jodetx.com/assets/pigmyx_images/2393a6db-1293-40c5-8bfb-d910fd64383a.jpg": {
+    "path": "assets/official/f9548b7fc09c.webp",
+    "alt": "Commission Report",
+    "bytes": 25546
+  },
+  "https://jodetx.com/assets/pigmyx_images/bea0637f-0bc4-4548-9a9c-7176a8909203.jpg": {
+    "path": "assets/official/2a2d61971598.webp",
+    "alt": "Collection Summary",
+    "bytes": 21648
+  },
+  "https://jodetx.com/assets/pigmyx_images/92f9e3b7-1830-4cad-866f-90d5d7bce547.jpg": {
+    "path": "assets/official/39bb321046f4.webp",
+    "alt": "Support & Profile",
+    "bytes": 19712
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-44-18-071_com.jodetx.storybox.jpg": {
+    "path": "assets/official/fe54f722ef74.webp",
+    "alt": "Secure Login",
+    "bytes": 36512
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-50-34-182_com.jodetx.storybox.jpg": {
+    "path": "assets/official/86c2ad84d74f.webp",
+    "alt": "Discover Stories",
+    "bytes": 92070
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-50-48-170_com.jodetx.storybox.jpg": {
+    "path": "assets/official/29a3592da655.webp",
+    "alt": "Vertical Player",
+    "bytes": 96012
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-53-18-773_com.jodetx.storybox.jpg": {
+    "path": "assets/official/3d6fc87c0b78.webp",
+    "alt": "Earn Rewards",
+    "bytes": 37512
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-53-29-022_com.jodetx.storybox.jpg": {
+    "path": "assets/official/eb7f9159da55.webp",
+    "alt": "My List & History",
+    "bytes": 52416
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-53-36-800_com.jodetx.storybox.jpg": {
+    "path": "assets/official/9aa8f8e23687.webp",
+    "alt": "Wallet & Profile",
+    "bytes": 18196
+  },
+  "https://jodetx.com/assets/StoryBox%20img/Screenshot_2026-05-21-10-53-49-649_com.jodetx.storybox.jpg": {
+    "path": "assets/official/f65dc0fe7993.webp",
+    "alt": "Settings & Controls",
+    "bytes": 13812
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Simulator%20Screenshot%20-%20iPhone%2017%20Pro%20Max%20-%202026-04-08%20at%2011.58.02%20(1).png": {
+    "path": "assets/official/1c92d6a8ac18.webp",
+    "alt": "Secure Login",
+    "bytes": 15156
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Simulator%20Screenshot%20-%20iPhone%2017%20Pro%20Max%20-%202026-04-08%20at%2011.59.42.png": {
+    "path": "assets/official/f6967abaaed5.webp",
+    "alt": "Business Dashboard",
+    "bytes": 42894
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Screenshot_2026-05-21-11-57-35-399_com.jodetx.saloonz_business.jpg": {
+    "path": "assets/official/1d126394e217.webp",
+    "alt": "Collections & Analytics",
+    "bytes": 25150
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Screenshot_2026-05-21-11-58-26-812_com.jodetx.saloonz_business.jpg": {
+    "path": "assets/official/df31330de0fb.webp",
+    "alt": "Service Catalogue",
+    "bytes": 37838
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Simulator%20Screenshot%20-%20iPhone%2017%20Pro%20Max%20-%202026-04-08%20at%2012.08.21.png": {
+    "path": "assets/official/39728950cde6.webp",
+    "alt": "Quick Collection",
+    "bytes": 19032
+  },
+  "https://jodetx.com/assets/Saloonz%20img/Simulator%20Screenshot%20-%20iPhone%2017%20Pro%20Max%20-%202026-04-08%20at%2012.08.10.png": {
+    "path": "assets/official/f7a6eb03d822.webp",
+    "alt": "Profile & Setup",
+    "bytes": 38272
+  },
+  "https://jodetx.com/assets/TempleG%20img/splash.png": {
+    "path": "assets/official/3499bbdecd27.webp",
+    "alt": "Secure Login",
+    "bytes": 7844
+  },
+  "https://jodetx.com/assets/TempleG%20img/home.png": {
+    "path": "assets/official/813f48abb0f3.webp",
+    "alt": "Dashboard",
+    "bytes": 49884
+  },
+  "https://jodetx.com/assets/TempleG%20img/donatsion%20step%201.png": {
+    "path": "assets/official/296f642bfcc5.webp",
+    "alt": "Donations & Seva",
+    "bytes": 37324
+  },
+  "https://jodetx.com/assets/TempleG%20img/collect%20payment.png": {
+    "path": "assets/official/16b1a74a35dc.webp",
+    "alt": "Payment Collection",
+    "bytes": 23102
+  },
+  "https://jodetx.com/assets/TempleG%20img/history.png": {
+    "path": "assets/official/2aa2c92c7bbf.webp",
+    "alt": "Donation History",
+    "bytes": 26004
+  },
+  "https://jodetx.com/assets/TempleG%20img/Media%20(1).jpg": {
+    "path": "assets/official/8228dd703d65.webp",
+    "alt": "Services & Offerings",
+    "bytes": 29520
+  },
+  "https://jodetx.com/assets/TempleG%20img/add%20staff.png": {
+    "path": "assets/official/4cdb0cb7851b.webp",
+    "alt": "Staff Management",
+    "bytes": 20336
+  },
+  "https://jodetx.com/assets/TempleG%20img/Media%20(4).jpg": {
+    "path": "assets/official/ab3d0c450e1e.webp",
+    "alt": "Notifications & Profile",
+    "bytes": 31140
+  },
+  "https://jodetx.com/assets/product-page1/jodetx_white.svg": {
+    "path": "assets/official/ba591d630aef.svg",
+    "alt": "Jodetx Logo",
+    "bytes": 5174
+  },
+  "https://jodetx.com/assets/contact-us/iso%20certifection@3x.png": {
+    "path": "assets/official/2b9f09fe9026.webp",
+    "alt": "ISO Certificate",
+    "bytes": 57868
+  },
+  "https://jodetx.com/assets/contact-us/PCI_1.svg": {
+    "path": "assets/official/2d8381839cf9.svg",
+    "alt": "PCI DSS Certificate",
+    "bytes": 4521
+  },
+  "https://jodetx.com/assets/contact-us/VPT_1.svg": {
+    "path": "assets/official/e6a7e49ee123.svg",
+    "alt": "VPT Certificate",
+    "bytes": 54947
+  },
+  "https://jodetx.com/assets/contact-us/certin_logo-01.png": {
+    "path": "assets/official/081378a29851.webp",
+    "alt": "CERT-IN Certificate",
+    "bytes": 40486
+  },
+  "https://jodetx.com/assets/contact-us/dlsar.png": {
+    "path": "assets/official/5c34d290a0a7.webp",
+    "alt": "DLSAR Certificate",
+    "bytes": 57534
+  }
+}

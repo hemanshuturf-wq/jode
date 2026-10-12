@@ -219,35 +219,51 @@ async function init() {
   function skylineTower(x, z, width, depth, height, variant = 'lumina') {
     const lobbyH = 3.0;
     // Transparent double-height lobby with warm interior illumination
-    box(x, lobbyH / 2 - .75, z, width * .75, lobbyH - .2, depth * .6, 'lobbyGlow');
-    box(x, lobbyH / 2 - .75, z + depth / 2 + .01, width - .8, lobbyH - .2, .04, 'bldGlassAzure');
+    box(x, lobbyH / 2 - .75, z, width * .7, lobbyH - .2, depth * .6, 'lobbyGlow');
+    box(x, lobbyH / 2 - .75, z + depth / 2 + .06, width - 1.2, lobbyH - .2, .05, 'bldGlassAzure');
     // Travertine corner and structural piers
     for (const sx of [-width / 2, width / 2]) for (const sz of [-depth / 2, depth / 2]) {
-      box(x + sx, lobbyH / 2 - .75, z + sz, .7, lobbyH, .7, 'bldWhiteStone');
+      box(x + sx, lobbyH / 2 - .75, z + sz, .8, lobbyH, .8, 'bldWhiteStone');
     }
     // Cantilevered entrance canopy
-    box(x, lobbyH - .75, z + depth / 2 + .55, width * .55, .12, 1.5, 'goldTrim');
-    box(x, lobbyH - .77, z + depth / 2 + .55, width * .45, .02, .08, 'headlight');
-    box(x, lobbyH - .75, z, width + .3, .18, depth + .3, 'goldTrim');
+    box(x, lobbyH - .75, z + depth / 2 + .65, width * .55, .14, 1.5, 'goldTrim');
+    box(x, lobbyH - .77, z + depth / 2 + .65, width * .45, .02, .08, 'headlight');
+    box(x, lobbyH - .75, z, width + .35, .18, depth + .35, 'goldTrim');
 
-    // Tower Body shaft: clean horizontal ribbon glass and crisp white stone spandrels
+    // Tower Body shaft:
+    // Core recessed inside by 0.35m on all sides, eliminating any facade overlap
     const shaftH = height - lobbyH;
     const shaftY = lobbyH - .75 + shaftH / 2;
-    box(x, shaftY, z, width, shaftH, depth, 'bldWhiteStone');
+    box(x, shaftY, z, width - .7, shaftH, depth - .7, 'concreteDark');
 
-    // Ribbon windows and sun louvers per floor
-    for (let y = lobbyH - .75 + 1.2; y < height - 1.2; y += 1.9) {
-      // Azure glass bands
-      box(x, y, z + depth / 2 + .02, width - .8, 1.15, .04, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
-      box(x, y, z - depth / 2 - .02, width - .8, 1.15, .04, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
-      box(x + width / 2 + .02, y, z, .04, 1.15, depth - .8, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
-      box(x - width / 2 - .02, y, z, .04, 1.15, depth - .8, variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure');
-      // Thin champagne spandrel accent
-      box(x, y + .7, z, width + .1, .08, depth + .1, 'goldTrim');
-      // Vertical architectural mullions
-      for (let mx = -width / 2 + 1.2; mx <= width / 2 - 1.2; mx += 1.8) {
-        box(x + mx, y, z + depth / 2 + .035, .04, 1.2, .06, 'metal');
+    // Discrete floor spandrels and window ribbons (Zero vertical overlap)
+    const glassMat = variant === 'solaria' ? 'bldGlassCyan' : 'bldGlassAzure';
+    for (let y = lobbyH - .75; y < height - 1.4; y += 1.9) {
+      // 1. Solid spandrel band (y to y + .65)
+      box(x, y + .325, z, width, .65, depth, 'bldWhiteStone');
+      box(x, y + .65, z, width + .1, .08, depth + .1, 'goldTrim');
+
+      // 2. Window ribbon (y + .65 to y + 1.85, height 1.2) - NO solid wall behind facade
+      const winY = y + 1.25;
+      box(x, winY, z, width - .04, 1.12, depth - .04, glassMat);
+
+      // 3. Corner columns at window level
+      for (const sx of [-width / 2, width / 2]) for (const sz of [-depth / 2, depth / 2]) {
+        box(x + sx, winY, z + sz, .6, 1.12, .6, 'bldWhiteStone');
       }
+
+      // 4. Vertical mullions standing slightly proud of glass
+      for (let mx = -width / 2 + 1.4; mx <= width / 2 - 1.4; mx += 1.8) {
+        box(x + mx, winY, z + depth / 2 + .04, .05, 1.12, .06, 'metal');
+        box(x + mx, winY, z - depth / 2 - .04, .05, 1.12, .06, 'metal');
+      }
+      for (let mz = -depth / 2 + 1.4; mz <= depth / 2 - 1.4; mz += 1.8) {
+        box(x + width / 2 + .04, winY, z + mz, .06, 1.12, .05, 'metal');
+        box(x - width / 2 - .04, winY, z + mz, .06, 1.12, .05, 'metal');
+      }
+
+      // 5. Architectural sun louver
+      box(x, winY + .52, z + depth / 2 + .14, width + .08, .04, .2, 'bldLouver');
     }
 
     const topY = height - .75;
@@ -262,7 +278,7 @@ async function init() {
     } else if (variant === 'nordic') {
       // Left Tower: Rooftop sky-terrace, glass balustrade, timber pergola, evergreen planters
       box(x, topY + .12, z, width + .15, .24, depth + .15, 'goldTrim');
-      box(x, topY + .5, z + depth / 2, width * .9, .6, .03, 'busGlass');
+      box(x, topY + .5, z + depth / 2 + .05, width * .9, .6, .03, 'busGlass');
       box(x, topY + 1.4, z, width * .65, .08, depth * .65, 'darkWood');
       for (const px of [x - 3.2, x + 3.2]) {
         box(px, topY + .35, z, .9, .4, .9, 'stone');
@@ -284,28 +300,58 @@ async function init() {
   // 3. Right: Solaria Horizon Tower (Clean white stone, cyan curtain glass, beveled crown)
   skylineTower(20, -46.5, 11.5, 7.0, 13.5, 'solaria');
 
-  // West commercial building: Clean 3-story modern commercial pavilion (x <= -31, z between -8 and 8; 100% clear of all roads)
-  box(-36, 4.0, 0, 10, 9.5, 16, 'bldWhiteStone');
+  // West commercial building: Clean 3-story modern commercial pavilion (x in [-41, -31], z in [-8, 8])
+  // Base plinth
   box(-36, -.55, 0, 10.2, .38, 16.2, 'stone');
-  box(-36, 8.8, 0, 10.2, .24, 16.2, 'goldTrim');
-  for (let y = 1.8; y < 8.0; y += 2.2) {
-    box(-30.95, y, 0, .05, 1.2, 14.5, 'bldGlassAzure');
-    box(-36, y, 8.05, 8.0, 1.2, .05, 'bldGlassAzure');
+  // Recessed interior core
+  box(-36, 3.8, 0, 9.4, 8.4, 15.4, 'concreteDark');
+  // Structural corner piers
+  for (const cx of [-40.6, -31.4]) for (const cz of [-7.6, 7.6]) {
+    box(cx, 3.8, cz, .8, 8.4, .8, 'bldWhiteStone');
   }
-  // METRO SUPERMART & FRESH MARKET: Ground floor storefront on West sidewalk
-  // East-facing storefront (facing road):
-  box(-30.9, .85, 0, .18, 3.2, 14.5, 'metal');
-  for (let sz = -6.5; sz <= 5.5; sz += 2.2) {
-    box(-30.85, .85, sz, .08, 2.5, 2.0, 'retailGlass');
-    box(-30.82, .85, sz, .04, 2.55, .06, 'metal');
+
+  // Ground Floor Storefront (y in [-.35, 2.5]):
+  // East storefront (facing road):
+  box(-31.0, 2.2, 0, .24, .6, 14.8, 'metal');
+  box(-31.0, -.45, 0, .24, .4, 14.8, 'stone');
+  box(-31.0, .85, 0, .05, 2.1, 14.4, 'retailGlass');
+  for (let sz = -6.0; sz <= 6.0; sz += 2.0) {
+    box(-30.92, .85, sz, .08, 2.15, .08, 'metal');
   }
   const martSign = textPlane('METRO SUPERMART · ORGANIC & FRESH', 9.2, .85, '#ffffff', 52, '#15803d');
-  martSign.position.set(-30.78, 2.55, 0); martSign.rotation.y = Math.PI / 2; scene.add(martSign);
-  // South-facing storefront (facing front camera!):
-  box(-36, .85, 8.05, 9.8, 3.2, .18, 'metal');
-  box(-36, .85, 8.1, 7.8, 2.5, .08, 'retailGlass');
+  martSign.position.set(-30.82, 2.45, 0); martSign.rotation.y = Math.PI / 2; scene.add(martSign);
+
+  // South storefront (facing camera):
+  box(-36, 2.2, 8.0, 8.8, .6, .24, 'metal');
+  box(-36, -.45, 8.0, 8.8, .4, .24, 'stone');
+  box(-36, .85, 8.0, 8.4, 2.1, .05, 'retailGlass');
+  for (let sx = -39.0; sx <= -33.0; sx += 2.0) {
+    box(sx, .85, 8.08, .08, 2.15, .08, 'metal');
+  }
   const martSouthSign = textPlane('METRO SUPERMART', 5.6, .7, '#ffffff', 48, '#15803d');
-  martSouthSign.position.set(-36, 2.55, 8.16); scene.add(martSouthSign);
+  martSouthSign.position.set(-36, 2.45, 8.16); scene.add(martSouthSign);
+
+  // Floor 2 Windows (y = 3.9) and Spandrel:
+  box(-36, 2.8, 0, 10.0, .6, 16.0, 'bldWhiteStone');
+  box(-36, 3.1, 0, 10.12, .08, 16.12, 'goldTrim');
+  box(-31.0, 3.9, 0, .05, 1.4, 14.8, 'bldGlassAzure');
+  box(-36, 3.9, 8.0, 8.8, 1.4, .05, 'bldGlassAzure');
+  for (let sz = -6.0; sz <= 6.0; sz += 2.4) box(-30.93, 3.9, sz, .07, 1.42, .07, 'metal');
+  for (let sx = -39.0; sx <= -33.0; sx += 2.4) box(sx, 3.9, 8.07, .07, 1.42, .07, 'metal');
+
+  // Floor 3 Windows (y = 5.9) and Spandrel:
+  box(-36, 4.8, 0, 10.0, .6, 16.0, 'bldWhiteStone');
+  box(-36, 5.1, 0, 10.12, .08, 16.12, 'goldTrim');
+  box(-31.0, 5.9, 0, .05, 1.4, 14.8, 'bldGlassAzure');
+  box(-36, 5.9, 8.0, 8.8, 1.4, .05, 'bldGlassAzure');
+  for (let sz = -6.0; sz <= 6.0; sz += 2.4) box(-30.93, 5.9, sz, .07, 1.42, .07, 'metal');
+  for (let sx = -39.0; sx <= -33.0; sx += 2.4) box(sx, 5.9, 8.07, .07, 1.42, .07, 'metal');
+
+  // Roof Parapet and crown:
+  box(-36, 6.9, 0, 10.0, .6, 16.0, 'bldWhiteStone');
+  box(-36, 7.25, 0, 10.15, .12, 16.15, 'goldTrim');
+  box(-36, 7.8, 0, 6.0, .9, 9.0, 'metal');
+
   // Canvas awning along the side
   box(-30.2, 2.15, 0, 1.4, .08, 11.2, 'marketAwning');
   for (let z = -5; z <= 5; z += 1.8) box(-30.2, 2.16, z, 1.42, .012, .45, 'awningCream');
@@ -335,40 +381,63 @@ async function init() {
     const tire = cyl(-26.2 + a, -.48, b, .28, .16, 'rubber'); tire.rotation.z = Math.PI / 2;
   }
   for (const a of [-.55, .55]) box(-26.2 + a, -.15, -5.78, .24, .12, .03, 'sofaMustard');
-  // East 2-Story Boutique Lifestyle Pavilion (x in [31, 39], z in [-8, 8], height 3.9)
-  // Low height ensures it NEVER blocks the camera view!
-  box(35.5, 1.2, 0, 9.0, 3.9, 16.0, 'bldWhiteStone');
-  box(35.5, -.55, 0, 9.2, .38, 16.2, 'bldDarkBasalt');
-  box(35.5, 3.2, 0, 9.2, .24, 16.2, 'goldTrim');
-  // Rooftop Garden Terrace Balustrade & Pergola at y = 3.3
-  for (let rx of [31.1, 39.9]) box(rx, 3.65, 0, .04, .7, 15.8, 'busGlass');
-  for (let rz of [-7.9, 7.9]) box(35.5, 3.65, rz, 8.8, .7, .04, 'busGlass');
-  for (const pz of [-4, 0, 4]) {
-    box(35.5, 4.35, pz, 7.6, .1, .14, 'darkWood');
-    box(33.0, 4.35, pz, .14, .1, 2.2, 'darkWood'); box(38.0, 4.35, pz, .14, .1, 2.2, 'darkWood');
+
+  // East 2-Story Boutique Lifestyle Pavilion (x in [31, 40], z in [-8, 8])
+  box(35.5, -.55, 0, 9.2, .38, 16.2, 'stone');
+  // Upper floor spandrel and ribbon windows
+  box(35.5, 2.5, 0, 9.0, .4, 16.0, 'bldWhiteStone');
+  box(31.0, 3.1, 0, .05, .8, 14.8, 'bldGlassAzure');
+  box(35.5, 3.1, 8.0, 7.8, .8, .05, 'bldGlassAzure');
+  for (const cx of [31.4, 39.6]) for (const cz of [-7.6, 7.6]) {
+    box(cx, 3.1, cz, .7, .8, .7, 'bldWhiteStone');
   }
+  box(35.5, 3.65, 0, 9.0, .3, 16.0, 'bldWhiteStone');
+  box(35.5, 3.85, 0, 9.15, .12, 16.15, 'goldTrim');
+
+  // Rooftop Garden Terrace Balustrade & Pergola at y = 3.9
+  for (let rx of [31.1, 39.9]) box(rx, 4.3, 0, .04, .7, 15.8, 'busGlass');
+  for (let rz of [-7.9, 7.9]) box(35.5, 4.3, rz, 8.8, .7, .04, 'busGlass');
+  for (const pz of [-4, 0, 4]) {
+    box(35.5, 5.0, pz, 7.6, .1, .14, 'darkWood');
+    box(33.0, 5.0, pz, .14, .1, 2.2, 'darkWood'); box(38.0, 5.0, pz, .14, .1, 2.2, 'darkWood');
+  }
+
   // CONNECTED TECH STORE: Ground floor on North half of East sidewalk (z in [-7.5, 0])
-  box(31.0, .85, -3.8, .18, 3.2, 7.2, 'bldDarkBasalt');
-  box(30.95, .85, -3.8, .08, 2.5, 6.6, 'retailGlass');
+  box(31.0, 2.1, -3.8, .22, .45, 7.2, 'metal');
+  box(31.0, -.45, -3.8, .22, .4, 7.2, 'stone');
+  box(31.0, .82, -3.8, .05, 2.1, 6.8, 'retailGlass');
+  for (let k = -6.4; k <= -1.2; k += 1.7) {
+    box(30.92, .82, k, .08, 2.15, .08, 'metal');
+  }
   const techSign = textPlane('CONNECTED TECH · SMART DEVICES', 6.2, .75, '#ffffff', 48, '#005a9c');
-  techSign.position.set(30.88, 2.55, -3.8); techSign.rotation.y = -Math.PI / 2; scene.add(techSign);
+  techSign.position.set(30.84, 2.35, -3.8); techSign.rotation.y = -Math.PI / 2; scene.add(techSign);
   box(30.3, 2.15, -3.8, 1.2, .06, 6.8, 'navy');
   for (let k = -6.0; k <= -1.2; k += 1.6) {
     box(31.6, -.35, k, .44, .75, .44, 'white');
     laptop(31.6, .05, k, 'laptopSilver');
   }
-  // ARTISAN COFFEE & BAKERY: Ground floor on South half of East sidewalk (z in [0, 7.5]) - DIRECTLY FACING CAMERA!
-  box(31.0, .85, 3.8, .18, 3.2, 7.2, 'cafeWood');
-  box(30.95, .85, 3.8, .08, 2.5, 6.6, 'retailGlass');
+
+  // ARTISAN COFFEE & BAKERY: Ground floor on South half of East sidewalk (z in [0, 7.5])
+  box(31.0, 2.1, 3.8, .22, .45, 7.2, 'cafeWood');
+  box(31.0, -.45, 3.8, .22, .4, 7.2, 'stone');
+  box(31.0, .82, 3.8, .05, 2.1, 6.8, 'retailGlass');
+  for (let k = 1.2; k <= 6.4; k += 1.7) {
+    box(30.92, .82, k, .08, 2.15, .08, 'cafeWood');
+  }
   const cafeSign = textPlane('ARTISAN COFFEE · BAKERY', 5.8, .75, '#fef6ee', 50, '#382215');
-  cafeSign.position.set(30.88, 2.55, 3.8); cafeSign.rotation.y = -Math.PI / 2; scene.add(cafeSign);
+  cafeSign.position.set(30.84, 2.35, 3.8); cafeSign.rotation.y = -Math.PI / 2; scene.add(cafeSign);
   box(30.3, 2.15, 3.8, 1.4, .08, 6.8, 'cafeAwning');
   for (let z = .8; z <= 6.8; z += 1.4) box(30.3, 2.16, z, 1.42, .012, .35, 'awningCream');
+
   // South-facing storefront for bakery cafe (facing front camera!)
-  box(35.5, .85, 8.05, 8.8, 3.2, .18, 'cafeWood');
-  box(35.5, .85, 8.1, 7.4, 2.5, .08, 'retailGlass');
+  box(35.5, 2.1, 8.0, 8.6, .45, .22, 'cafeWood');
+  box(35.5, -.45, 8.0, 8.6, .4, .22, 'stone');
+  box(35.5, .82, 8.0, 8.0, 2.1, .05, 'retailGlass');
+  for (let sx = 32.2; sx <= 38.8; sx += 2.2) {
+    box(sx, .82, 8.08, .08, 2.15, .08, 'cafeWood');
+  }
   const cafeSouthSign = textPlane('ARTISAN BAKERY & CAFE', 6.2, .7, '#fef6ee', 50, '#382215');
-  cafeSouthSign.position.set(35.5, 2.55, 8.16); scene.add(cafeSouthSign);
+  cafeSouthSign.position.set(35.5, 2.35, 8.16); scene.add(cafeSouthSign);
   // Outdoor Sidewalk Cafe Seating: bistro tables, chairs, parasol, coffee cups, croissants
   for (const tz of [2.0, 4.4, 6.6]) {
     cyl(28.6, -.45, tz, .38, .55, 'wood'); cyl(28.6, -.70, tz, .12, .05, 'metal');
